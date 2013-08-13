@@ -1,0 +1,740 @@
+@DOCO:TITLE "Vector and Matrix Functions"
+
+@DESCRIPTION
+
+	Lithium is a collection of various vector and matrix functions written in C.
+	It was primary designed to be used with OpenGL.
+
+@SECTION "Scalar"
+
+	@SECTION "Data Types"
+	
+		@SYMBOL "LIFloat"
+			@DEF "typedef float LIFloat"
+			
+			Basic float type
+			If makro `LI_USE_DOUBLE` is set to `1` then `double` is used instead of `float`.
+
+	@SECTION "Functions"
+
+		@SYMBOL "LIAbs"
+			@DEF "LIAbs (a)"
+			
+			Get absolute positive value of `a`
+			Can be used for any number type since it is a makro
+
+			@EXAMPLE
+				LIAbs (-4.4) => 4.4
+
+		@SYMBOL "LIMin"
+			@DEF "LIMin (a, b)"
+			
+			Get minimum value of two values `a` and `b`
+			Can be used for any number type since it is a makro
+
+			@EXAMPLE
+				LIMin (3.4, -2.7) => -2.7
+
+		@SYMBOL "LIMax"
+			@DEF "LIMax (a, b)"
+		
+			Get maximum value of two values `a` and `b`
+			Can be used for any number type since it is a makro
+
+			@EXAMPLE
+				LIMax (3.4, -2.7) => 3.4
+
+		@SYMBOL "LIClamp"
+			@DEF "LIClamp (v, l, h)"
+
+			Returns `l` if `v` is less than `l` or `h` if `v` is greater than `h`
+			This is equal to `LIMax (l, LIMin (v, h))`
+			Can be used for any number type since it is a makro
+
+			@EXAMPLE
+				LIClamp (0.2, -2.3, 8.7) => -2.3
+				LIClamp (6.5, -2.3, 8.7) =>  6.5
+				LIClamp (9.5, -2.3, 8.7) =>  8.7
+
+	@SECTION "Conversion"
+			
+		@SYMBOL "LIDegreeToRad"
+			@DEF "LIFloat LIDegreeToRad (LIFloat degree)"
+			
+			Convert degrees to radians
+
+			@EXAMPLE
+				LIDegreeToRad (92.4) => 1.612869
+
+		@SYMBOL "LIRadToDegree"
+			@DEF "LIFloat LIRadToDegree (LIFloat rad)"
+			
+			Convert radians to degrees
+		
+			@EXAMPLE
+				LIRadToDegree (1.612869) => 92.4
+
+@SECTION "Vector"
+
+	@SECTION "Data Types"
+	
+		@SYMBOL "LIVec2"
+			@DEF
+				\typedef struct {
+				\	LIFloat x;
+				\	LIFloat y;
+				\} LIVec2
+	
+			2-component vector
+	
+		@SYMBOL "LIVec3"
+			@DEF
+				\typedef struct {
+				\	LIFloat x;
+				\	LIFloat y;
+				\	LIFloat z;
+				\} LIVec3
+
+			3-component vector
+	
+		@SYMBOL "LIVec4"
+			@DEF
+				\typedef struct {
+				\	LIFloat x;
+				\	LIFloat y;
+				\	LIFloat z;
+				\	LIFloat w;
+				\} LIVec4
+
+			4-component vector
+
+	@SECTION "Creation"
+
+		@SYMBOL "LIMakeVec2"
+			@DEF "LIVec2 LIMakeVec2 (LIFloat x, LIFloat y)"
+		
+			Initializer for 2-component vector
+		
+			@EXAMPLE
+				LIVec2 a = LIMakeVec2 (2.3, -0.8);
+		
+		@SYMBOL "LIMakeVec3"
+			@DEF "LIVec3 LIMakeVec3 (LIFloat x, LIFloat y, LIFloat z)"
+	
+			Initializer for 3-component vector
+			
+			@EXAMPLE
+				LIVec3 a = LIMakeVec3 (2.3, -0.8, 0.2);
+		
+		@SYMBOL "LIMakeVec4"
+			@DEF "LIVec4 LIMakeVec4 (LIFloat x, LIFloat y, LIFloat z, LIFloat w)"
+
+			Initializer for 4-component vector
+			
+			@EXAMPLE
+				LIVec4 a = LIMakeVec4 (0.6, 0.3, 0.8, 0.1);
+
+	@SECTION "Arithmetic"
+
+		@SYMBOL "LIAddVec2"
+			@DEF "LIVec2 LIAddVec2 (LIVec2 a, LIVec2 b)"
+	
+			Add vectors `a` and `b`
+				
+			@EXAMPLE
+				\LIAddVec2 (
+				\	LIMakeVec2 (-3.1, 5.7),
+				\	LIMakeVec2 (1.0, 4.5)
+				\) => (-2.1, 10.2)
+
+		@SYMBOL "LIAddVec3"
+			@DEF "LIVec3 LIAddVec3 (LIVec3 a, LIVec3 b)"
+	
+			Add vectors `a` and `b`
+				
+			@EXAMPLE
+				\LIAddVec3 (
+				\	LIMakeVec3 (-3.1, 5.7, 0.6),
+				\	LIMakeVec3 (1.0, 4.5, -0.2)
+				\) => (-2.1, 10.2, 0.4)
+	
+		@SYMBOL "LIAddVec4"
+			@DEF "LIVec4 LIAddVec4 (LIVec4 a, LIVec4 b)"
+
+			Add vectors `a` and `b`
+				
+			@EXAMPLE
+				\LIAddVec4 (
+				\	LIMakeVec4 (-3.1, 5.7, 0.6, -7.6),
+				\	LIMakeVec4 (1.0, 4.5, -0.2, 9.2)
+				\) => (-2.1, 10.2, 0.4, 1.6)
+
+		@SYMBOL "LISubVec2"
+			@DEF "LIVec2 LISubVec2 (LIVec2 a, LIVec2 b)"
+	
+			Subtract vector `b` from `a`
+						
+			@EXAMPLE
+				\LISubVec2 (
+				\	LIMakeVec2 (-3.1, 5.7),
+				\	LIMakeVec2 (1.0, 4.5)
+				\) => (-4.1, 1.2)
+	
+		@SYMBOL "LISubVec3"
+			@DEF "LIVec3 LISubVec3 (LIVec3 a, LIVec3 b)"
+	
+			Subtract vector `b` from `a`
+							
+			@EXAMPLE
+				\LISubVec3 (
+				\	LIMakeVec3 (-3.1, 5.7, 0.6),
+				\	LIMakeVec3 (1.0, 4.5, -0.2)
+				\) => (-4.1, 1.2, 0.8)
+	
+		@SYMBOL "LISubVec4"
+			@DEF "LIVec4 LISubVec4 (LIVec4 a, LIVec4 b)"
+		
+			Subtract vector `b` from `a`
+					
+			@EXAMPLE
+				\LISubVec4 (
+				\	LIMakeVec4 (-3.1, 5.7, 0.6, -7.6),
+				\	LIMakeVec4 (1.0, 4.5, -0.2, 9.2)
+				\) => (-4.1, 1.2, 0.8, -16.8)
+	
+		@SYMBOL "LIMultVec2"
+			@DEF "LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)"
+	
+			Multiply vector `a` by `l`
+							
+			@EXAMPLE
+				\LIMultVec2 (
+				\	LIMakeVec2 (-3.1, 5.7),
+				\	0.4
+				\) => (-1.24, 2.28)
+	
+		@SYMBOL "LIMultVec3"
+			@DEF "LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)"
+		
+			Multiply vector `a` by `l`
+							
+			@EXAMPLE
+				\LIMultVec3 (
+				\	LIMakeVec3 (-3.1, 5.7, 0.6),
+				\	0.4
+				\) => (-1.24, 2.28, 0.24)
+	
+		@SYMBOL "LIMultVec4"
+			@DEF "LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)"
+
+			Multiply vector `a` by `l`
+							
+			@EXAMPLE
+				\LIMultVec4 (
+				\	LIMakeVec4 (-3.1, 5.7, 0.6, -7.6),
+				\	0.4
+				\) => (-1.24, 2.28, 0.24, -3.04)
+	
+	@SECTION "Other"
+
+		@SYMBOL "LILengthVec2"
+			@DEF "LIFloat LILengthVec2 (LIVec2 v)"
+	
+			Get length of vector `v`
+								
+			@EXAMPLE
+				LILengthVec2 (LIMakeVec2 (3.0, 4.0)) => 5.0
+	
+		@SYMBOL "LILengthVec3"
+			@DEF "LIFloat LILengthVec3 (LIVec3 v)"
+	
+			Get length of vector `v`
+									
+			@EXAMPLE
+				LILengthVec3 (LIMakeVec3 (3.0, 4.0, 5.0)) => 7.071068.0
+	
+		@SYMBOL "LIDistanceVec2"
+			@DEF "LIFloat LIDistanceVec2 (LIVec2 a, LIVec2 b)"
+			
+			Get distance between vectors `a` and `b`
+			This is equal to: `LILengthVec2 (LISubVec2 (a, b))`
+									
+			@EXAMPLE
+				\LIDistanceVec2 (
+				\	LIMakeVec2 (-3.1, 5.7),
+				\	LIMakeVec2 (1.0, 4.5)
+				\) => 4.272002
+	
+		@SYMBOL "LIDistanceVec3"
+			@DEF "LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)"
+
+			Get distance between vectors `a` and `b`
+			This is equal to: `LILengthVec3 (LISubVec3 (a, b))`
+
+			@EXAMPLE
+				\LIDistanceVec3 (
+				\	LIMakeVec3 (-3.1, 5.7, 0.6),
+				\	LIMakeVec3 (1.0, 4.5, -0.2)
+				\) => 4.346263
+
+		@SYMBOL "LINormalizeVec2"
+			@DEF "LIVec2 LINormalizeVec2 (LIVec2 v)"
+
+			Returns vector with same direction as vector `v` but with length `1.0`
+
+			@EXAMPLE
+				LINormalizeVec2 (-3.1, 5.7) => (-0.477772, 0.878484)
+
+		@SYMBOL "LINormalizeVec3"
+			@DEF "LIVec3 LINormalizeVec3 (LIVec3 v)"
+
+			Returns vector with same direction as vector `v` but with length `1.0`
+
+			@EXAMPLE
+				LINormalizeVec3 (-3.1, 5.7, 0.6) => (-0.475742, 0.874752, 0.092079)
+
+		@SYMBOL "LIDotVec2"
+			@DEF "LIFloat LIDotVec2 (LIVec2 a, LIVec2 b)"
+	
+			Get dot product of vectors `a` and `b`
+
+			@EXAMPLE
+				LIDotVec2 (
+				\	LIDotVec2 (-0.477772, 0.878484),
+				\	LIDotVec2 (-0.216930, 0.976187)
+				\) => 0.961208
+
+		@SYMBOL "LIDotVec3"
+			@DEF "LIFloat LIDotVec3 (LIVec3 a, LIVec3 b)"
+
+			Get dot product of vectors `a` and `b`
+
+			@EXAMPLE
+				\LIDotVec3 (
+				\	LIMakeVec3 (-0.475742, 0.874752,  0.092079),
+				\	LIMakeVec3 (-0.216726, 0.975270, -0.043345)
+				\) => 0.952233
+
+		@SYMBOL "LICrossVec3"
+			@DEF "LIVec3 LICrossVec3 (LIVec3 a, LIVec3 b)"
+
+			Get cross product of vectors `a` and `b`
+
+			@EXAMPLE
+				\LICrossVec3 (
+				\	LIMakeVec3 (-0.475742, 0.874752,  0.092079),
+				\	LIMakeVec3 (-0.216726, 0.975270, -0.043345)
+				\) => (-0.127718, -0.040577, -0.274395)
+
+		@SYMBOL "LIReflectVec2"
+			@DEF "LIVec2 LIReflectVec2 (LIVec2 vector, LIVec2 wall)"
+	
+			Get result vector by reflecting `vector` at `wall`
+			`wall` is a vector pointing away from the wall (has not to be normalized)
+
+		@SYMBOL "LIReflectVec3"
+			@DEF "LIVec3 LIReflectVec3 (LIVec3 vector, LIVec3 wall)"
+
+			Get result vector by reflecting `vector` at `wall`
+			`wall` is a vector pointing away from the wall (has not to be normalized)
+
+	@SECTION "Rotation"
+
+		@SYMBOL "LIRotateVec2"
+			@DEF "LIVec2 LIRotateVec2 (LIVec2 vector, LIFloat angle)"
+
+			Rotate `vector` around origin point `(0, 0)` by `angle` degrees counter clockwise
+
+		@SYMBOL "LIRotateRelativeVec2"
+			@DEF "LIVec2 LIRotateRelativeVec2 (LIVec2 vector, LIFloat angle, LIVec2 center)"
+	
+			Rotate `vector` around `center` point by `angle` degrees counter clockwise
+	
+		@SYMBOL "LIRotateVec3"
+			@DEF "LIVec3 LIRotateVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle)"
+
+			Rotate `vector` around origin point `(0, 0, 0)` by `angle` degrees counter clockwise
+
+		@SYMBOL "LIRotateRelativeVec3"
+			@DEF "LIRotateRelativeVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle, LIVec3 center)"
+	
+			Rotate `vector` around `center` point by `angle` degrees counter clockwise
+	
+	@SECTION "Debug"
+
+		@SYMBOL "LIPrintVec2"
+			@DEF "void LIPrintVec2 (LIVec2 v)"
+
+			Print components of vector `v`
+
+			@EXAMPLE
+				\-3.540000  15.573453
+
+		@SYMBOL "LIPrintVec3"
+			@DEF "void LIPrintVec3 (LIVec3 v)"
+	
+			Print components of vector `v`
+
+			@EXAMPLE
+				\-3.540000  15.573453  -0.000134
+	
+		@SYMBOL "LIPrintVec4"
+			@DEF "void LIPrintVec4 (LIVec4 v)"
+
+			Print components of vector `v`
+	
+			@EXAMPLE
+				\-3.540000  15.573453  -0.000134  0.500000
+
+@SECTION "Matrix"
+
+	@SECTION "Data Types"
+	
+		@SYMBOL "LIMat2"
+			@DEF
+				\typedef struct {
+				\	LIFloat m00, m01;
+				\	LIFloat m10, m11;
+				\} LIMat2
+
+			2×2-component matrix
+	
+		@SYMBOL "LIMat3"
+			@DEF
+				\typedef struct {
+				\	LIFloat m00, m01, m02;
+				\	LIFloat m10, m11, m12;
+				\	LIFloat m20, m21, m22;
+				\} LIMat3
+	
+			3×3-component matrix
+	
+		@SYMBOL "LIMat4"
+			@DEF
+				\typedef struct {
+				\	LIFloat m00, m01, m02, m03;
+				\	LIFloat m10, m11, m12, m13;
+				\	LIFloat m20, m21, m22, m23;
+				\	LIFloat m30, m31, m32, m33;
+				\} LIMat4
+
+			4×4-component matrix
+
+	@SECTION "Creation"
+
+		@SYMBOL "LIMakeIdentityMat2"
+			@DEF "void LIMakeIdentityMat2 (LIMat2 * m)"
+
+			Initialize 2×2-component matrix `m` with identity matrix
+
+		@SYMBOL "LIMakeIdentityMat3"
+			@DEF "void LIMakeIdentityMat3 (LIMat3 * m)"
+
+			Initialize 3×3-component matrix `m` with identity matrix
+
+		@SYMBOL "LIMakeIdentityMat4"
+			@DEF "void LIMakeIdentityMat4 (LIMat4 * m)"
+
+			Initialize 4×4-component matrix `m` with identity matrix
+
+		@SYMBOL "LIMakeTranslationMat3"
+			@DEF "void LIMakeTranslationMat3 (LIMat3 * m, LIVec2 v)"
+
+			Initialize matrix `m` with identity matrix and set translation components (`M20 … M21`) to vector `v`
+
+		@SYMBOL "LIMakeTranslationMat4"
+			@DEF "void LIMakeTranslationMat4 (LIMat4 * m, LIVec3 v)"
+
+			Initialize matrix `m` with identity matrix and set translation components (`M30 … M32`) to vector `v`
+
+		@SYMBOL "LIMakeScaleMat2"
+			@DEF "void LIMakeScaleMat2 (LIMat2 * m, LIVec2 v)"
+
+			Initialize matrix `m` with identity matrix and set scale components (`M00 … M11`) to vector `v`
+
+		@SYMBOL "LIMakeScaleMat3"
+			@DEF "void LIMakeScaleMat3 (LIMat3 * m, LIVec2 v)"
+
+			Initialize matrix `m` with identity matrix and set scale components (`M00 … M11`) to vector `v`
+
+		@SYMBOL "LIMakeScaleMat3Vec3"
+			@DEF "void LIMakeScaleMat3Vec3 (LIMat3 * m, LIVec3 v)"
+
+			Initialize matrix `m` with identity matrix and set scale components (`M00 … M22`) to vector `v`
+
+		@SYMBOL "LIMakeScaleMat4"
+			@DEF "void LIMakeScaleMat4 (LIMat4 * m, LIVec3 v)"
+
+			Initialize matrix `m` with identity matrix and set scale components (`M00 … M22`) to vector `v`
+
+		@SYMBOL "LIMakeRotationMat2"
+			@DEF "void LIMakeRotationMat2 (LIMat2 * m, LIFloat a)"
+
+			Initialize matrix `m` with identity matrix and set rotation components (`M00 … M11`)
+			to rotation by `a` degrees counter clockwise
+
+		@SYMBOL "LIMakeRotationMat3"
+			@DEF "void LIMakeRotationMat3 (LIMat3 * m, LIFloat a)"
+
+			Initialize matrix `m` with identity matrix and set rotation components (`M00 … M11`)
+			to rotation by `a` degrees counter clockwise
+
+		@SYMBOL "LIMakeRotationMat3Vec3"
+			@DEF "void LIMakeRotationMat3Vec3 (LIMat3 * m, LIVec3 v, LIFloat a)"
+
+			Initialize matrix `m` with identity matrix and set rotation components (`M00 … M22`)
+			to rotation around axis `v` by `a` degrees counter clockwise
+
+		@SYMBOL "LIMakeRotationMat4"
+			@DEF "void LIMakeRotationMat4 (LIMat4 * m, LIVec3 v, LIFloat a)"
+
+			Initialize matrix `m` with identity matrix and set rotation components (`M00 … M22`)
+			to rotation around axis `v` by `a` degrees counter clockwise
+
+	@SECTION "Transformation"
+	
+		@SYMBOL "LITranslateMat3"
+			@DEF "void LITranslateMat3 (LIMat3 * m, LIVec2 v)"
+
+			Apply translation by adding vector `v` to translation components (`M20 … M21`)
+			Vector `v` is first multiplied by rotation components (`M00 … M11`)	before added so the translation occurs in the matrix coordinate space
+
+		@SYMBOL "LITranslateMat4"
+			@DEF "void LITranslateMat4 (LIMat4 * m, LIVec3 v)"
+
+			Apply translation by adding vector `v` to translation components (`M30 … M32`)
+			Vector `v` is first multiplied by rotation components (`M00 … M22`)	before added so the translation occurs in the matrix coordinate space
+
+		@SYMBOL "LIScaleMat2"
+			@DEF "void LIScaleMat2 (LIMat2 * m, LIVec2 v)"
+
+			Apply scaling by multipling rotation component (`M00 … M11`) by vector `v`
+
+		@SYMBOL "LIScaleMat3"
+			@DEF "void LIScaleMat3 (LIMat3 * m, LIVec2 v)"
+	
+			Apply scaling by multipling rotation component (`M00 … M11`) by vector `v`
+	
+		@SYMBOL "LIScaleMat3Vec3"
+			@DEF "void LIScaleMat3Vec3 (LIMat3 * m, LIVec3 v)"
+
+			Apply scaling by multipling rotation component (`M00 … M22`) by vector `v`
+
+		@SYMBOL "LIScaleMat4"
+			@DEF "void LIScaleMat4 (LIMat4 * m, LIVec3 v)"
+
+			Apply scaling by multipling rotation component (`M00 … M22`) by vector `v`
+
+		@SYMBOL "LIRotateMat2"
+			@DEF "void LIRotateMat2 (LIMat2 * m, LIFloat a)"
+
+			Apply rotation to rotation component (`M00 … M11`) by `a` degrees counter clockwise
+
+		@SYMBOL "LIRotateMat3"
+			@DEF "void LIRotateMat3 (LIMat3 * m, LIFloat a)"
+
+			Apply rotation to rotation component (`M00 … M11`) by `a` degrees counter clockwise
+
+		@SYMBOL "LIRotateMat3Vec3"
+			@DEF "void LIRotateMat3Vec3 (LIMat3 * m, LIVec3 v, LIFloat a)"
+		
+			Apply rotation to rotation component (`M00 … M22`) around axis `v` by `a` degrees counter clockwise
+		
+		@SYMBOL "LIRotateMat4"
+			@DEF "void LIRotateMat4 (LIMat4 * m, LIVec3 v, LIFloat a)"
+
+			Apply rotation to rotation component (`M00 … M22`) around axis `v` by `a` degrees counter clockwise
+
+	@SECTION "Multiplication"
+
+		@SYMBOL "LIMultMat2"
+			@DEF "void LIMultMat2 (LIMat2 * r, const LIMat2 * m, const LIMat2 * n)"
+
+			Multiply matrix `m` by matrix `n` and write result to `r`
+			Target pointer `r` may be the same as `m` or `n`
+
+		@SYMBOL "LIMultMat3"
+			@DEF "void LIMultMat3 (LIMat3 * r, const LIMat3 * m, const LIMat3 * n)"
+	
+			Multiply matrix `m` by matrix `n` and write result to `r`
+			Target pointer `r` may be the same as `m` or `n`
+	
+		@SYMBOL "LIMultMat3Mat2"
+			@DEF "void LIMultMat3Mat2 (LIMat3 * r, const LIMat3 * m, const LIMat2 * n)"
+
+			Multiply rotation components (`M00 … M11`) of matrix `m` by matrix `n` and write result to `r`
+			Target pointer `r` may be the same as `m`
+
+		@SYMBOL "LIMultMat4"
+			@DEF "void LIMultMat4 (LIMat4 * r, const LIMat4 * m, const LIMat4 * n)"
+		
+			Multiply matrix `m` by matrix `n` and write result to `r`
+			Target pointer `r` may be the same as `m` or `n`
+		
+		@SYMBOL "LIMultMat4Mat3"
+			@DEF "void LIMultMat4Mat3 (LIMat4 * r, const LIMat4 * m, const LIMat3 * n)"
+
+			Multiply rotation components (`M00 … M22`) of matrix `m` by matrix `n` and write result to `r`
+			Target pointer `r` may be the same as `m`
+
+		@SYMBOL "LIMultMat2Vec2"
+			@DEF "LIVec2 LIMultMat2Vec2 (LIMat2 * m, LIVec2 v)"
+		
+			Multiply matrix `m` by vector `v` and return result vector
+		
+		@SYMBOL "LIMultMat3Vec2"
+			@DEF "LIVec2 LIMultMat3Vec2 (LIMat3 * m, LIVec2 v)"
+
+			Multiply rotation components (`M00 … M11`) of matrix `m` by vector `v` and return result vector
+
+		@SYMBOL "LIMultMat3Vec3"
+			@DEF "LIVec3 LIMultMat3Vec3 (LIMat3 * m, LIVec3 v)"
+
+			Multiply matrix `m` by vector `v` and return result vector
+
+		@SYMBOL "LIMultMat4Vec3"
+			@DEF "LIVec3 LIMultMat4Vec3 (LIMat4 * m, LIVec3 v)"
+	
+			Multiply rotation components (`M00 … M22`) of matrix `m` by vector `v` and return result vector
+	
+	@SECTION "Inverse, Transpose"
+
+		@SYMBOL "LIInvertMat2"
+			@DEF "bool LIInvertMat2 (LIMat2 * r, const LIMat2 * m)"
+
+			Invert matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+			If matrix is not invertible `false` is returned
+
+		@SYMBOL "LIInvertMat3"
+			@DEF "bool LIInvertMat3 (LIMat3 * r, const LIMat3 * m)"
+
+			Invert matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+			If matrix is not invertible `false` is returned
+
+		@SYMBOL "LIInvertMat4"
+			@DEF "bool LIInvertMat4 (LIMat4 * r, const LIMat4 * m)"
+
+			Invert matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+			If matrix is not invertible `false` is returned
+
+		@SYMBOL "LITransposeMat2"
+			@DEF "void LITransposeMat2 (LIMat2 * r, const LIMat2 * m)"
+
+			Transpose matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+			
+			@EXAMPLE
+				\0.974370 -0.224951  =>  0.974370  0.224951
+				\0.224951  0.974370     -0.224951  0.974370
+
+		@SYMBOL "LITransposeMat3"
+			@DEF "void LITransposeMat3 (LIMat3 * r, const LIMat3 * m)"
+		
+			Transpose matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+
+			@EXAMPLE
+				\ 0.870180 -0.429840  0.240884      0.870180  0.450611 -0.199341
+				\ 0.450611  0.891989 -0.036117  => -0.429840  0.891989  0.139973
+				\-0.199341  0.139973  0.969882      0.240884 -0.036117  0.969882
+
+		@SYMBOL "LITransposeMat4"
+			@DEF "void LITransposeMat4 (LIMat4 * r, const LIMat4 * m)"
+
+			Transpose matrix `m` and write result to `r`
+			Target pointer `r` may be the same as `m`
+
+			@EXAMPLE
+				\ 0.870180 -0.429840  0.240884  0.000000      0.870180  0.450611 -0.199341  0.000000
+				\ 0.450611  0.891989 -0.036117  0.000000  => -0.429840  0.891989  0.139973  0.000000
+				\-0.199341  0.139973  0.969882  0.000000      0.240884 -0.036117  0.969882  0.000000
+				\ 0.000000  0.000000  0.000000  1.000000      0.000000  0.000000  0.000000  1.000000
+
+	@SECTION "Camera"
+
+		@SYMBOL "LIMakeModelviewEyeMat4"
+			@DEF "void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)"
+
+			...
+
+		@SYMBOL "LIMakeProjectionOrthogonalMat4"
+			@DEF "void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIFloat width, LIFloat height, LIFloat near, LIFloat far)"
+
+			...
+
+		@SYMBOL "LIMakeProjectionPerspectiveMat4"
+			@DEF "void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIFloat width, LIFloat height, LIFloat near, LIFloat far, LIFloat fovy)"
+
+			…
+
+	@SECTION "Copying"
+
+		@SYMBOL "LICopyMat2"
+			@DEF "void LICopyMat2 (LIMat2 * n, const LIMat2 * m)"
+
+			Copy matrix `m` to matrix `n`
+
+		@SYMBOL "LICopyMat2Mat3"
+			@DEF "void LICopyMat2Mat3 (LIMat2 * n, const LIMat3 * m)"
+
+			Copy rotation and scaling components (`M00 … M11`) of matrix `m` to matrix `n`
+
+		@SYMBOL "LICopyMat3"
+			@DEF "void LICopyMat3 (LIMat3 * n, const LIMat3 * m)"
+
+			Copy matrix `m` to matrix `n`
+
+		@SYMBOL "LICopyMat3Mat2"
+			@DEF "void LICopyMat3Mat2 (LIMat3 * n, const LIMat2 * m)"
+
+			Copy matrix `m` to rotation and scaling components (`M00 … M11`) of matrix `n`
+
+		@SYMBOL "LICopyMat3Mat4"
+			@DEF "void LICopyMat3Mat4 (LIMat3 * n, const LIMat4 * m)"
+
+			Copy rotation and scaling components (`M00 … M22`) of matrix `m` to matrix `n`
+
+		@SYMBOL "LICopyMat4"
+			@DEF "void LICopyMat4 (LIMat4 * n, const LIMat4 * m)"
+
+			Copy matrix `m` to matrix `n`
+
+		@SYMBOL "LICopyMat4Mat3"
+			@DEF "void LICopyMat4Mat3 (LIMat4 * n, const LIMat3 * m)"
+
+			Copy matrix `m` to rotation and scaling components (`M00 … M22`) of matrix `n`
+
+	@SECTION "Debug"
+
+		@SYMBOL "LIPrintMat2"
+			@DEF "void LIPrintMat2 (const LIMat2 * m)"
+	
+			Print components of matrix `m`
+	
+			@EXAMPLE
+				\0.707107 -0.707107
+				\0.707107  0.707107
+	
+		@SYMBOL "LIPrintMat3"
+			@DEF "void LIPrintMat3 (const LIMat3 * m)"
+	
+			Print components of matrix `m`
+	
+			@EXAMPLE
+				\0.707107 -0.707107  0.000000
+				\0.707107  0.707107  0.000000
+				\0.000000  0.000000  1.000000
+	
+		@SYMBOL "LIPrintMat4"
+			@DEF "void LIPrintMat4 (const LIMat4 * m)"
+	
+			Print components of matrix `m`
+	
+			@EXAMPLE
+				\ 0.728028  0.608789  0.315202  0.000000
+				\-0.525105  0.790791 -0.314508  0.000000
+				\-0.440727  0.063457  0.895395  0.000000
+				\ 0.000000  0.000000  0.000000  1.000000

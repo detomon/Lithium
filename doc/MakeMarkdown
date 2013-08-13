@@ -1,0 +1,77 @@
+#!/usr/bin/php
+<?php
+
+include '/Users/simon/Downloads/Subversion/Projects/DOCO/PHP/DOCO.php';
+
+function renderText ($text, $isCode = false)
+{
+	$lines = explode ("\n", $text -> value);
+	foreach ($lines as $line) {
+		$line = str_replace ("\t", "   ", $line);
+		if ($isCode)
+			echo "\t";
+		echo "$line\n";
+	}
+}
+
+function renderSymbol ($symbol)
+{
+	foreach ($symbol -> childNodes as $child) {
+		$type = $child -> name;
+
+		if ($type == "DEF") {
+			$text = $child -> value;
+
+			if ($text) {
+				echo "`$child->value`\n\n";
+			}
+			else {
+				foreach ($child -> query ("text()") as $text)
+					renderText ($text, true);
+				echo "\n\n";
+			}
+
+		}
+		else if ($type == 'EXAMPLE') {
+			foreach ($child -> query ("text()") as $text)
+				renderText ($text, true);
+			echo "\n\n";
+		}
+		else {
+			echo "$child->value\n\n";
+		}
+	}
+}
+
+if (count ($_SERVER ['argv']) < 2)
+	die ("usage: {$_SERVER['argv'][0]} file\n");
+
+$file = new DOCOFile ($_SERVER ['argv'][1]);
+
+foreach ($file -> query ("SECTION") as $section) {
+	$title = $section -> query ("value()", true);
+
+	$name = "$title.md";
+	$out = fopen ($name, 'w');
+
+	echo "Writing $title.md\n";
+
+	ob_start ();
+
+	foreach ($section -> query ("SECTION") as $section2) {
+		$title = $section2 -> query ("value()", true);
+
+		echo "$title\n";
+		echo str_repeat ("=", strlen ($title)) . "\n\n";
+
+		foreach ($section2 -> query ("SYMBOL") as $symbol) {
+			$title = $symbol -> query ("value()", true);
+			echo "$title\n";
+			echo str_repeat ("-", strlen ($title)) . "\n\n";
+			renderSymbol ($symbol);
+		}
+	}
+
+	fwrite ($out, ob_get_clean ());
+	fclose ($out);
+}
