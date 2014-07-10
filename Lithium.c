@@ -696,12 +696,15 @@ bool LIInvertMat2 (LIMat2 * r, LIMat2 const * m)
 	LIMat2   r0;
 	bool     makeCopy = (r == m);
 	LIMat2 * result = makeCopy ? & r0 : r;
+	LIFloat  det;
 	
-	result -> m00 =  m -> m11;
-	result -> m01 = -m -> m01;
+	det = result -> m00 * result -> m11 - result -> m01 * result -> m10;
+
+	result -> m00 =  m -> m11 / det;
+	result -> m01 = -m -> m01 / det;
 	
-	result -> m10 = -m -> m10;
-	result -> m11 =  m -> m00;
+	result -> m10 = -m -> m10 / det;
+	result -> m11 =  m -> m00 / det;
 	
 	if (makeCopy)
 		LICopyMat2 (r, result);
