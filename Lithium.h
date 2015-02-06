@@ -340,7 +340,7 @@ static inline LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)
 static inline LIVec2 LINormalizeVec2 (LIVec2 v)
 {
 	LIFloat l = LILengthVec2 (v);
-	
+
 	if (l != 0.0) {
 		v.x /= l;
 		v.y /= l;
@@ -378,7 +378,7 @@ static inline LIVec2 LINormalizeMultVec2 (LIVec2 v, LIFloat a)
 static inline LIVec3 LINormalizeVec3 (LIVec3 v)
 {
 	LIFloat l = LILengthVec3 (v);
-	
+
 	if (l != 0.0) {
 		v.x /= l;
 		v.y /= l;
@@ -389,7 +389,7 @@ static inline LIVec3 LINormalizeVec3 (LIVec3 v)
 		v.y = 0.0;
 		v.z = 0.0;
 	}
-	
+
 	return v;
 }
 
@@ -410,7 +410,7 @@ static inline LIVec3 LINormalizeMultVec3 (LIVec3 v, LIFloat a)
 		v.y = 0.0;
 		v.z = 0.0;
 	}
-	
+
 	return v;
 }
 
@@ -658,17 +658,17 @@ extern void LIMultMat4 (LIMat4 * r, LIMat4 const * m, LIMat4 const * n);
 extern void LIMultMat4Mat3 (LIMat4 * r, LIMat4 const * m, LIMat3 const * n);
 
 /**
- * Multiply matrix m by vector v 
+ * Multiply matrix m by vector v
  */
 extern LIVec2 LIMultMat2Vec2 (LIMat2 const * m, LIVec2 v);
 
 /**
- * Multiply matrix m by vector v 
+ * Multiply matrix m by vector v
  */
 extern LIVec2 LIMultMat3Vec2 (LIMat3 const * m, LIVec2 v);
 
 /**
- * Multiply matrix m by vector v 
+ * Multiply matrix m by vector v
  */
 extern LIVec3 LIMultMat3Vec3 (LIMat3 const * m, LIVec3 v);
 
