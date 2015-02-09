@@ -67,8 +67,8 @@ typedef float  LIFloat;
  */
 typedef struct
 {
-	union { LIFloat x, s; };
-	union { LIFloat y, t; };
+	LIFloat x;
+	LIFloat y;
 } LIVec2;
 
 /**
@@ -77,9 +77,9 @@ typedef struct
  */
 typedef struct
 {
-	union { LIFloat x, r, s; };
-	union { LIFloat y, g, t; };
-	union { LIFloat z, b, u; };
+	LIFloat x;
+	LIFloat y;
+	LIFloat z;
 } LIVec3;
 
 /**
@@ -88,10 +88,10 @@ typedef struct
  */
 typedef struct
 {
-	union { LIFloat x, r, s; };
-	union { LIFloat y, g, t; };
-	union { LIFloat z, b, u; };
-	union { LIFloat w, a, v; };
+	LIFloat x;
+	LIFloat y;
+	LIFloat z;
+	LIFloat w;
 } LIVec4;
 
 /**
