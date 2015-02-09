@@ -453,6 +453,17 @@ extern LIVec2 LIReflectVec2 (LIVec2 vector, LIVec2 wall);
  */
 extern LIVec3 LIReflectVec3 (LIVec3 vector, LIVec3 wall);
 
+/**
+ * Create plane from 2 points
+ * `z` contains the plane distance from zero
+ */
+extern LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b);
+
+/**
+ * Create plane from 3 points
+ * `w` contains the plane distance from zero
+ */
+extern LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c);
 
 #pragma mark - Rotation
 

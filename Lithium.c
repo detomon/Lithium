@@ -106,6 +106,34 @@ LIVec3 LIReflectVec3 (LIVec3 vector, LIVec3 wall)
 	return vector;
 }
 
+LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b)
+{
+	LIVec3 plane;
+	LIVec2 d1 = LISubVec2 (b, a);
+	LIVec2 p  = LINormalizeVec2 (LIMakeVec2 (d1.y, -d1.x));
+
+	plane.x = p.x;
+	plane.y = p.y;
+	plane.z = LIDotVec2 (p, a);
+
+	return plane;
+}
+
+LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c)
+{
+	LIVec4 plane;
+	LIVec3 d1 = LISubVec3 (b, a);
+	LIVec3 d2 = LISubVec3 (c, a);
+	LIVec3 p  = LINormalizeVec3 (LICrossVec3 (d1, d2));
+
+	plane.x = p.x;
+	plane.y = p.y;
+	plane.z = p.z;
+	plane.w = LIDotVec3 (p, a);
+
+	return plane;
+}
+
 void LIMakeTranslationMat3 (LIMat3 * m, LIVec2 v)
 {
 	m -> m00 = 1.0;
