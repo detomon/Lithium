@@ -23,7 +23,6 @@
  */
 
 #include <math.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -51,15 +50,15 @@ typedef float  LIFloat;
  * Math functions depending on float type
  */
 #if LI_USE_DOUBLE
-#define LISin(v) sin(v)
-#define LICos(v) cos(v)
-#define LITan(v) tan(v)
-#define LISqrt(v) sqrt(v)
+#	define LISin(v) sin(v)
+#	define LICos(v) cos(v)
+#	define LITan(v) tan(v)
+#	define LISqrt(v) sqrt(v)
 #else
-#define LISin(v) sinf(v)
-#define LICos(v) cosf(v)
-#define LITan(v) tanf(v)
-#define LISqrt(v) sqrtf(v)
+#	define LISin(v) sinf(v)
+#	define LICos(v) cosf(v)
+#	define LITan(v) tanf(v)
+#	define LISqrt(v) sqrtf(v)
 #endif
 
 /**
@@ -148,7 +147,7 @@ typedef struct {
 /**
  * Radians to degrees
  */
-static inline LIFloat LIRadToDegree (LIFloat rad)
+static LIFloat LIRadToDegree (LIFloat rad)
 {
 	return rad / M_PI * 180.0;
 }
@@ -156,7 +155,7 @@ static inline LIFloat LIRadToDegree (LIFloat rad)
 /**
  * Degrees to radians
  */
-static inline LIFloat LIDegreeToRad (LIFloat degree)
+static LIFloat LIDegreeToRad (LIFloat degree)
 {
 	return degree / 180.0 * M_PI;
 }
@@ -167,7 +166,7 @@ static inline LIFloat LIDegreeToRad (LIFloat degree)
 /**
  * Make 2-component vector
  */
-static inline LIVec2 LIMakeVec2 (LIFloat x, LIFloat y)
+static LIVec2 LIMakeVec2 (LIFloat x, LIFloat y)
 {
 	return (LIVec2) {x, y};
 }
@@ -175,7 +174,7 @@ static inline LIVec2 LIMakeVec2 (LIFloat x, LIFloat y)
 /**
  * Make 3-component vector
  */
-static inline LIVec3 LIMakeVec3 (LIFloat x, LIFloat y, LIFloat z)
+static LIVec3 LIMakeVec3 (LIFloat x, LIFloat y, LIFloat z)
 {
 	return (LIVec3) {x, y, z};
 }
@@ -183,7 +182,7 @@ static inline LIVec3 LIMakeVec3 (LIFloat x, LIFloat y, LIFloat z)
 /**
  * Make 4-component vector
  */
-static inline LIVec4 LIMakeVec4 (LIFloat x, LIFloat y, LIFloat z, LIFloat w)
+static LIVec4 LIMakeVec4 (LIFloat x, LIFloat y, LIFloat z, LIFloat w)
 {
 	return (LIVec4) {x, y, z, w};
 }
@@ -194,7 +193,7 @@ static inline LIVec4 LIMakeVec4 (LIFloat x, LIFloat y, LIFloat z, LIFloat w)
 /**
  * Add two vectors
  */
-static inline LIVec2 LIAddVec2 (LIVec2 a, LIVec2 b)
+static LIVec2 LIAddVec2 (LIVec2 a, LIVec2 b)
 {
 	return LIMakeVec2 (
 		a.x + b.x,
@@ -205,7 +204,7 @@ static inline LIVec2 LIAddVec2 (LIVec2 a, LIVec2 b)
 /**
  * Add two vectors
  */
-static inline LIVec3 LIAddVec3 (LIVec3 a, LIVec3 b)
+static LIVec3 LIAddVec3 (LIVec3 a, LIVec3 b)
 {
 	return LIMakeVec3 (
 		a.x + b.x,
@@ -217,7 +216,7 @@ static inline LIVec3 LIAddVec3 (LIVec3 a, LIVec3 b)
 /**
  * Add two vectors
  */
-static inline LIVec4 LIAddVec4 (LIVec4 a, LIVec4 b)
+static LIVec4 LIAddVec4 (LIVec4 a, LIVec4 b)
 {
 	return LIMakeVec4 (
 		a.x + b.x,
@@ -230,7 +229,7 @@ static inline LIVec4 LIAddVec4 (LIVec4 a, LIVec4 b)
 /**
  * Subtract two vectors
  */
-static inline LIVec2 LISubVec2 (LIVec2 a, LIVec2 b)
+static LIVec2 LISubVec2 (LIVec2 a, LIVec2 b)
 {
 	return LIMakeVec2 (
 		a.x - b.x,
@@ -241,7 +240,7 @@ static inline LIVec2 LISubVec2 (LIVec2 a, LIVec2 b)
 /**
  * Subtract two vectors
  */
-static inline LIVec3 LISubVec3 (LIVec3 a, LIVec3 b)
+static LIVec3 LISubVec3 (LIVec3 a, LIVec3 b)
 {
 	return LIMakeVec3 (
 		a.x - b.x,
@@ -253,7 +252,7 @@ static inline LIVec3 LISubVec3 (LIVec3 a, LIVec3 b)
 /**
  * Subtract two vectors
  */
-static inline LIVec4 LISubVec4 (LIVec4 a, LIVec4 b)
+static LIVec4 LISubVec4 (LIVec4 a, LIVec4 b)
 {
 	return LIMakeVec4 (
 		a.x - b.x,
@@ -266,7 +265,7 @@ static inline LIVec4 LISubVec4 (LIVec4 a, LIVec4 b)
 /**
  * Multiply vector
  */
-static inline LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)
+static LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)
 {
 	return LIMakeVec2 (
 		a.x * l,
@@ -277,7 +276,7 @@ static inline LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)
 /**
  * Multiply vector
  */
-static inline LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)
+static LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)
 {
 	return LIMakeVec3 (
 		a.x * l,
@@ -289,7 +288,7 @@ static inline LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)
 /**
  * Multiply vector
  */
-static inline LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)
+static LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)
 {
 	return LIMakeVec4 (
 		a.x * l,
@@ -305,7 +304,7 @@ static inline LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)
 /**
  * Get length of vector
  */
-static inline LIFloat LILengthVec2 (LIVec2 v)
+static LIFloat LILengthVec2 (LIVec2 v)
 {
 	return LISqrt (v.x * v.x + v.y * v.y);
 }
@@ -313,7 +312,7 @@ static inline LIFloat LILengthVec2 (LIVec2 v)
 /**
  * Get length of vector
  */
-static inline LIFloat LILengthVec3 (LIVec3 v)
+static LIFloat LILengthVec3 (LIVec3 v)
 {
 	return LISqrt (v.x * v.x + v.y * v.y + v.z * v.z);
 }
@@ -321,7 +320,7 @@ static inline LIFloat LILengthVec3 (LIVec3 v)
 /**
  * Distance
  */
-static inline LIFloat LIDistanceVec2 (LIVec2 a, LIVec2 b)
+static LIFloat LIDistanceVec2 (LIVec2 a, LIVec2 b)
 {
 	return LILengthVec2 (LISubVec2 (a, b));
 }
@@ -329,7 +328,7 @@ static inline LIFloat LIDistanceVec2 (LIVec2 a, LIVec2 b)
 /**
  * Distance
  */
-static inline LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)
+static LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)
 {
 	return LILengthVec3 (LISubVec3 (a, b));
 }
@@ -337,7 +336,7 @@ static inline LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)
 /**
  * Normalize vector to length of 1.0
  */
-static inline LIVec2 LINormalizeVec2 (LIVec2 v)
+static LIVec2 LINormalizeVec2 (LIVec2 v)
 {
 	LIFloat l = LILengthVec2 (v);
 
@@ -356,7 +355,7 @@ static inline LIVec2 LINormalizeVec2 (LIVec2 v)
 /**
  * Normalize vector to length of a
  */
-static inline LIVec2 LINormalizeMultVec2 (LIVec2 v, LIFloat a)
+static LIVec2 LINormalizeMultVec2 (LIVec2 v, LIFloat a)
 {
 	LIFloat l = a != 0.0 ? LILengthVec2 (v) / a : 0.0;
 
@@ -375,7 +374,7 @@ static inline LIVec2 LINormalizeMultVec2 (LIVec2 v, LIFloat a)
 /**
  * Normalize vector to length of 1.0
  */
-static inline LIVec3 LINormalizeVec3 (LIVec3 v)
+static LIVec3 LINormalizeVec3 (LIVec3 v)
 {
 	LIFloat l = LILengthVec3 (v);
 
@@ -396,7 +395,7 @@ static inline LIVec3 LINormalizeVec3 (LIVec3 v)
 /**
  * Normalize vector to length of a
  */
-static inline LIVec3 LINormalizeMultVec3 (LIVec3 v, LIFloat a)
+static LIVec3 LINormalizeMultVec3 (LIVec3 v, LIFloat a)
 {
 	LIFloat l = a != 0.0 ? LILengthVec3 (v) / a : 0.0;
 
@@ -417,7 +416,7 @@ static inline LIVec3 LINormalizeMultVec3 (LIVec3 v, LIFloat a)
 /**
  * Dot product of two vectors
  */
-static inline LIFloat LIDotVec2 (LIVec2 a, LIVec2 b)
+static LIFloat LIDotVec2 (LIVec2 a, LIVec2 b)
 {
 	return (a.x * b.x + a.y * b.y);
 }
@@ -425,7 +424,7 @@ static inline LIFloat LIDotVec2 (LIVec2 a, LIVec2 b)
 /**
  * Dot product of two vectors
  */
-static inline LIFloat LIDotVec3 (LIVec3 a, LIVec3 b)
+static LIFloat LIDotVec3 (LIVec3 a, LIVec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
@@ -433,7 +432,7 @@ static inline LIFloat LIDotVec3 (LIVec3 a, LIVec3 b)
 /**
  * Cross product of two vectors
  */
-static inline LIVec3 LICrossVec3 (LIVec3 a, LIVec3 b)
+static LIVec3 LICrossVec3 (LIVec3 a, LIVec3 b)
 {
 	return LIMakeVec3 (
 		a.y * b.z - a.z * b.y,
@@ -500,7 +499,7 @@ extern const LIMat4 LIIdentityMat4;
 /**
  * Set identity matrix
  */
-static inline void LIMakeIdentityMat2 (LIMat2 * m)
+static void LIMakeIdentityMat2 (LIMat2 * m)
 {
 	memcpy (m, & LIIdentityMat2, sizeof (LIMat2));
 }
@@ -508,7 +507,7 @@ static inline void LIMakeIdentityMat2 (LIMat2 * m)
 /**
  * Set identity matrix
  */
-static inline void LIMakeIdentityMat3 (LIMat3 * m)
+static void LIMakeIdentityMat3 (LIMat3 * m)
 {
 	memcpy (m, & LIIdentityMat3, sizeof (LIMat3));
 }
@@ -516,7 +515,7 @@ static inline void LIMakeIdentityMat3 (LIMat3 * m)
 /**
  * Set identity matrix
  */
-static inline void LIMakeIdentityMat4 (LIMat4 * m)
+static void LIMakeIdentityMat4 (LIMat4 * m)
 {
 	memcpy (m, & LIIdentityMat4, sizeof (LIMat4));
 }
@@ -691,7 +690,7 @@ extern LIVec4 LIMultMat4Vec4 (LIMat4 const * m, LIVec4 v);
  * Returns NO if matrix is not invertible
  * Target and source matrices may be the same
  */
-extern bool LIInvertMat2 (LIMat2 * r, LIMat2 const * m);
+extern int LIInvertMat2 (LIMat2 * r, LIMat2 const * m);
 
 /**
  * Invert matrix
@@ -699,7 +698,7 @@ extern bool LIInvertMat2 (LIMat2 * r, LIMat2 const * m);
  * Returns NO if matrix is not invertible
  * Target and source matrices may be the same
  */
-extern bool LIInvertMat3 (LIMat3 * r, LIMat3 const * m);
+extern int LIInvertMat3 (LIMat3 * r, LIMat3 const * m);
 
 /**
  * Invert matrix
@@ -707,7 +706,7 @@ extern bool LIInvertMat3 (LIMat3 * r, LIMat3 const * m);
  * Returns NO if matrix is not invertible
  * Target and source matrices may be the same
  */
-extern bool LIInvertMat4 (LIMat4 * r, LIMat4 const * m);
+extern int LIInvertMat4 (LIMat4 * r, LIMat4 const * m);
 
 /**
  * Transpose matrix m
@@ -736,7 +735,7 @@ extern void LITransposeMat4 (LIMat4 * r, LIMat4 const * m);
 /**
  * Copy matrix m to n
  */
-static inline void LICopyMat2 (LIMat2 * n, LIMat2 const * m)
+static void LICopyMat2 (LIMat2 * n, LIMat2 const * m)
 {
 	memcpy (n, m, sizeof (LIMat2));
 }
@@ -749,7 +748,7 @@ extern void LICopyMat2Mat3 (LIMat2 * n, LIMat3 const * m);
 /**
  * Copy matrix m to n
  */
-static inline void LICopyMat3 (LIMat3 * n, LIMat3 const * m)
+static void LICopyMat3 (LIMat3 * n, LIMat3 const * m)
 {
 	memcpy (n, m, sizeof (LIMat3));
 }
@@ -767,7 +766,7 @@ extern void LICopyMat3Mat4 (LIMat3 * n, LIMat4 const * m);
 /**
  * Copy matrix m to n
  */
-static inline void LICopyMat4 (LIMat4 * n, LIMat4 const * m)
+static void LICopyMat4 (LIMat4 * n, LIMat4 const * m)
 {
 	memcpy (n, m, sizeof (LIMat4));
 }
@@ -832,9 +831,9 @@ extern void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LI
 /**
  * Project point on screen
  */
-extern bool LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
+extern int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
 
 /**
  * Unproject point from screen
  */
-extern bool LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
+extern int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
