@@ -66,7 +66,6 @@ typedef float  LIFloat;
 
 /**
  * 2-component vector
- * Coordinates or texture coodinates
  */
 typedef struct
 {
@@ -76,7 +75,6 @@ typedef struct
 
 /**
  * 3-component vector
- * Coordinates, color components or texture coodinates
  */
 typedef struct
 {
@@ -87,7 +85,6 @@ typedef struct
 
 /**
  * 4-component vector
- * Coordinates, color components with alpha or texture coodinates
  */
 typedef struct
 {
@@ -125,7 +122,7 @@ typedef struct {
 } LIMat4;
 
 
-#pragma mark - Single value functions
+#pragma mark - Scalar functions
 
 /**
  * Get absolute value
@@ -589,27 +586,27 @@ extern void LIMakeRotationMat4 (LIMat4 * m, LIVec3 v, LIFloat a);
 #pragma mark - Transformation
 
 /**
- * Translate matrix by vector v
+ * Translate matrix by vector `v`
  */
 extern void LITranslateMat3 (LIMat3 * m, LIVec2 v);
 
 /**
- * Translate matrix by vector v
+ * Translate matrix by vector `v`
  */
 extern void LITranslateMat4 (LIMat4 * m, LIVec3 v);
 
 /**
- * Scale matrix by vector v
+ * Scale matrix by vector `v`
  */
 extern void LIScaleMat2 (LIMat2 * m, LIVec2 v);
 
 /**
- * Scale matrix by vector v
+ * Scale matrix by vector `v`
  */
 extern void LIScaleMat3 (LIMat3 * m, LIVec2 v);
 
 /**
- * Scale matrix by vector v
+ * Scale matrix by vector `v`
  */
 extern void LIScaleMat3Vec3 (LIMat3 * m, LIVec3 v);
 
@@ -619,22 +616,22 @@ extern void LIScaleMat3Vec3 (LIMat3 * m, LIVec3 v);
 extern void LIScaleMat4 (LIMat4 * m, LIVec3 v);
 
 /**
- * Rotate matrix by a degrees
+ * Rotate matrix by `a` degrees
  */
 extern void LIRotateMat2 (LIMat2 * m, LIFloat a);
 
 /**
- * Rotate matrix by a degrees
+ * Rotate matrix by `a` degrees
  */
 extern void LIRotateMat3 (LIMat3 * m, LIFloat a);
 
 /**
- * Rotate matrix around axis v by a degrees
+ * Rotate matrix around axis `v` by `a` degrees
  */
 extern void LIRotateMat3Vec3 (LIMat3 * m, LIVec3 v, LIFloat a);
 
 /**
- * Rotate matrix around axis v by a degrees
+ * Rotate matrix around axis `v` by `a` degrees
  */
 extern void LIRotateMat4 (LIMat4 * m, LIVec3 v, LIFloat a);
 
@@ -642,31 +639,31 @@ extern void LIRotateMat4 (LIMat4 * m, LIVec3 v, LIFloat a);
 #pragma mark - Multiplication
 
 /**
- * Mutiply matrix m by n in r
+ * Mutiply matrix m by n
  * Target and source matrices may be the same
  */
 extern void LIMultMat2 (LIMat2 * r, LIMat2 const * m, LIMat2 const * n);
 
 /**
- * Mutiply matrix m by n in r
+ * Mutiply matrix m by n
  * Target and source matrices may be the same
  */
 extern void LIMultMat3 (LIMat3 * r, LIMat3 const * m, LIMat3 const * n);
 
 /**
- * Mutiply matrix m by n in r
+ * Mutiply matrix m by n
  * Target and source matrices may be the same
  */
 extern void LIMultMat3Mat2 (LIMat3 * r, LIMat3 const * m, LIMat2 const * n);
 
 /**
- * Mutiply matrix m by n in r
+ * Mutiply matrix m by n
  * Target and source matrices may be the same
  */
 extern void LIMultMat4 (LIMat4 * r, LIMat4 const * m, LIMat4 const * n);
 
 /**
- * Mutiply matrix m by n in r
+ * Mutiply matrix m by n
  * Target and source matrices may be the same
  */
 extern void LIMultMat4Mat3 (LIMat4 * r, LIMat4 const * m, LIMat3 const * n);
@@ -697,7 +694,7 @@ extern LIVec3 LIMultMat4Vec3 (LIMat4 const * m, LIVec3 v);
 extern LIVec4 LIMultMat4Vec4 (LIMat4 const * m, LIVec4 v);
 
 
-#pragma mark - Inverse and Transpose
+#pragma mark - Inverse and transpose
 
 /**
  * Invert matrix
@@ -792,7 +789,7 @@ static void LICopyMat4 (LIMat4 * n, LIMat4 const * m)
 extern void LICopyMat4Mat3 (LIMat4 * n, LIMat3 const * m);
 
 
-#pragma mark - Debug functions
+#pragma mark - Print
 
 /**
  * Print LIVec2
@@ -845,11 +842,15 @@ extern void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LI
 
 /**
  * Project point on screen
+ * If `projection` is NULL, `modelView` is interpreted as pre-calculated
+ * modelview projection matrix (P * M)
  */
 extern int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
 
 /**
  * Unproject point from screen
+ * If `projection` is NULL, `modelView` is interpreted as pre-calculated inverse
+ * of model view projection matrix (P * M) ^ -1
  */
 extern int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
 
