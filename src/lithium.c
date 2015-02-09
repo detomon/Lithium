@@ -110,11 +110,9 @@ LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b)
 {
 	LIVec3 plane;
 	LIVec2 d1 = LISubVec2 (b, a);
-	LIVec2 p  = LINormalizeVec2 (LIMakeVec2 (d1.y, -d1.x));
+	LIVec2 p  = LINormalizeVec2 (LICrossVec2 (d1));
 
-	plane.x = p.x;
-	plane.y = p.y;
-	plane.z = LIDotVec2 (p, a);
+	plane = LIMakeVec3Vec2 (p, LIDotVec2 (p, a));
 
 	return plane;
 }
@@ -126,10 +124,7 @@ LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c)
 	LIVec3 d2 = LISubVec3 (c, a);
 	LIVec3 p  = LINormalizeVec3 (LICrossVec3 (d1, d2));
 
-	plane.x = p.x;
-	plane.y = p.y;
-	plane.z = p.z;
-	plane.w = LIDotVec3 (p, a);
+	plane = LIMakeVec4Vec3 (p, LIDotVec3 (p, a));
 
 	return plane;
 }
@@ -629,7 +624,6 @@ LIVec3 LIMultMat4Vec3 (LIMat4 const * m, LIVec3 v)
 	vm.x = m -> m00 * v.x + m -> m10 * v.y + m -> m20 * v.z + m -> m30 * 1.0;
 	vm.y = m -> m01 * v.x + m -> m11 * v.y + m -> m21 * v.z + m -> m31 * 1.0;
 	vm.z = m -> m02 * v.x + m -> m12 * v.y + m -> m22 * v.z + m -> m32 * 1.0;
-	//vm.w = 1.0;
 
 	return vm;
 }
@@ -732,6 +726,12 @@ int LIInvertMat2 (LIMat2 * r, LIMat2 const * m)
 	LIFloat  det;
 
 	det = result -> m00 * result -> m11 - result -> m01 * result -> m10;
+
+	if (det == 0.0) {
+		return -1;
+	}
+
+	det = 1.0 / det;
 
 	result -> m00 =  m -> m11 / det;
 	result -> m01 = -m -> m01 / det;
