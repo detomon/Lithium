@@ -1,6 +1,6 @@
 /**
- * Lithium 0.1.4
- * Copyright (c) 2012 Simon Schoenenberger
+ * Lithium 0.2
+ * Copyright (c) 2015 Simon Schoenenberger
  * http://lithium.monoxid.net/
  *
  * Permission is hereby granted, free of charge, to any person obtaining

@@ -1,6 +1,6 @@
 /**
- * Lithium 0.1.4
- * Copyright (c) 2012 Simon Schoenenberger
+ * Lithium 0.2
+ * Copyright (c) 2015 Simon Schoenenberger
  * http://lithium.monoxid.net/
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -21,6 +21,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
+#ifndef _LITHIUM_H_
+#define _LITHIUM_H_
 
 #include <math.h>
 #include <stdio.h>
@@ -465,6 +468,7 @@ extern LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b);
  */
 extern LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c);
 
+
 #pragma mark - Rotation
 
 /**
@@ -848,3 +852,5 @@ extern int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelVi
  * Unproject point from screen
  */
 extern int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
+
+#endif /* ! _LITHIUM_H_ */
