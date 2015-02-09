@@ -187,8 +187,56 @@ static LIVec4 LIMakeVec4 (LIFloat x, LIFloat y, LIFloat z, LIFloat w)
 	return (LIVec4) {x, y, z, w};
 }
 
+/**
+ * Make 2-component vector from 3-component vector
+ */
+static LIVec2 LIMakeVec2Vec3 (LIVec3 v)
+{
+	return (LIVec2) {v.x, v.y};
+}
 
-#pragma mark - Arithmetic
+/**
+ * Make 2-component vector from 4-component vector
+ */
+static LIVec2 LIMakeVec2Vec4 (LIVec4 v)
+{
+	return (LIVec2) {v.x, v.y};
+}
+
+/**
+ * Make 3-component vector from 4-component vector
+ */
+static LIVec3 LIMakeVec3Vec4 (LIVec4 v)
+{
+	return (LIVec3) {v.x, v.y, v.z};
+}
+
+/**
+ * Make 3-component vector from 2-component vector
+ */
+static LIVec3 LIMakeVec3Vec2 (LIVec2 v, LIFloat z)
+{
+	return (LIVec3) {v.x, v.y, z};
+}
+
+/**
+ * Make 4-component vector from 2-component vector
+ */
+static LIVec4 LIMakeVec4Vec2 (LIVec2 v, LIFloat z, LIFloat w)
+{
+	return (LIVec4) {v.x, v.y, z, w};
+}
+
+/**
+ * Make 4-component vector from 3-component vector
+ */
+static LIVec4 LIMakeVec4Vec3 (LIVec3 v, LIFloat w)
+{
+	return (LIVec4) {v.x, v.y, v.z, w};
+}
+
+
+#pragma mark - Vector arithmetic
 
 /**
  * Add two vectors
@@ -430,6 +478,14 @@ static LIFloat LIDotVec3 (LIVec3 a, LIVec3 b)
 }
 
 /**
+ * Create vector perpendicular to `a`
+ */
+static LIVec2 LICrossVec2 (LIVec2 a)
+{
+	return LIMakeVec2 (a.y, -a.x);
+}
+
+/**
  * Cross product of two vectors
  */
 static LIVec3 LICrossVec3 (LIVec3 a, LIVec3 b)
@@ -441,32 +497,8 @@ static LIVec3 LICrossVec3 (LIVec3 a, LIVec3 b)
 	);
 }
 
-/**
- * Reflect vector at wall
- * wall is a normal vector pointing away from the wall
- */
-extern LIVec2 LIReflectVec2 (LIVec2 vector, LIVec2 wall);
 
-/**
- * Reflect vector at wall
- * wall is a normal vector pointing away from the wall
- */
-extern LIVec3 LIReflectVec3 (LIVec3 vector, LIVec3 wall);
-
-/**
- * Create plane from 2 points
- * `z` contains the plane distance from zero
- */
-extern LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b);
-
-/**
- * Create plane from 3 points
- * `w` contains the plane distance from zero
- */
-extern LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c);
-
-
-#pragma mark - Rotation
+#pragma mark - Vector rotation
 
 /**
  * Rotate `vector` around origin point `(0, 0)` by `angle` degrees counter clockwise
@@ -489,6 +521,33 @@ extern LIVec3 LIRotateVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle);
  * angle: degrees
  */
 extern LIVec3 LIRotateRelativeVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle, LIVec3 center);
+
+
+#pragma mark - Tool functions
+
+/**
+ * Reflect vector at wall
+ * wall is a normal vector pointing away from the wall
+ */
+extern LIVec2 LIReflectVec2 (LIVec2 vector, LIVec2 wall);
+
+/**
+ * Reflect vector at wall
+ * wall is a normal vector pointing away from the wall
+ */
+extern LIVec3 LIReflectVec3 (LIVec3 vector, LIVec3 wall);
+
+/**
+ * Create plane vector from 2 points
+ * `z` contains the plane distance from zero
+ */
+extern LIVec3 LIMakePlaneVec2 (LIVec2 a, LIVec2 b);
+
+/**
+ * Create plane vector from 3 points
+ * `w` contains the plane distance from zero
+ */
+extern LIVec4 LIMakePlaneVec3 (LIVec3 a, LIVec3 b, LIVec3 c);
 
 
 #pragma mark - Matrix creation
