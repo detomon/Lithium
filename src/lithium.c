@@ -912,48 +912,6 @@ void LITransposeMat4 (LIMat4 * r, LIMat4 const * m)
 	}
 }
 
-void LIPrintVec2 (LIVec2 v)
-{
-	printf ("%f  %f\n", v.x, v.y);
-	printf ("\n");
-}
-
-void LIPrintVec3 (LIVec3 v)
-{
-	printf ("%f  %f  %f\n", v.x, v.y, v.z);
-	printf ("\n");
-}
-
-void LIPrintVec4 (LIVec4 v)
-{
-	printf ("%f  %f  %f  %f\n", v.x, v.y, v.z, v.w);
-	printf ("\n");
-}
-
-void LIPrintMat2 (LIMat2 const * m)
-{
-	printf ("%9.6f %9.6f\n", m -> m00, m -> m10);
-	printf ("%9.6f %9.6f\n", m -> m01, m -> m11);
-	printf ("\n");
-}
-
-void LIPrintMat3 (LIMat3 const * m)
-{
-	printf ("%9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20);
-	printf ("%9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21);
-	printf ("%9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22);
-	printf ("\n");
-}
-
-void LIPrintMat4 (LIMat4 const * m)
-{
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20, m -> m30);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21, m -> m31);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22, m -> m32);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m03, m -> m13, m -> m23, m -> m33);
-	printf ("\n");
-}
-
 void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)
 {
 	LIVec3 out = LINormalizeVec3 (LISubVec3 (eye, lookAt));  // -||LOS||
@@ -1152,4 +1110,46 @@ int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, L
 	object -> z = v.z;
 
 	return 0;
+}
+
+void LIPrintVec2 (LIVec2 v)
+{
+	printf ("%f  %f\n", v.x, v.y);
+	printf ("\n");
+}
+
+void LIPrintVec3 (LIVec3 v)
+{
+	printf ("%f  %f  %f\n", v.x, v.y, v.z);
+	printf ("\n");
+}
+
+void LIPrintVec4 (LIVec4 v)
+{
+	printf ("%f  %f  %f  %f\n", v.x, v.y, v.z, v.w);
+	printf ("\n");
+}
+
+void LIPrintMat2 (LIMat2 const * m)
+{
+	printf ("%9.6f %9.6f\n", m -> m00, m -> m10);
+	printf ("%9.6f %9.6f\n", m -> m01, m -> m11);
+	printf ("\n");
+}
+
+void LIPrintMat3 (LIMat3 const * m)
+{
+	printf ("%9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20);
+	printf ("%9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21);
+	printf ("%9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22);
+	printf ("\n");
+}
+
+void LIPrintMat4 (LIMat4 const * m)
+{
+	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20, m -> m30);
+	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21, m -> m31);
+	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22, m -> m32);
+	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m03, m -> m13, m -> m23, m -> m33);
+	printf ("\n");
 }

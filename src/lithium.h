@@ -850,6 +850,38 @@ static void LICopyMat4 (LIMat4 * n, LIMat4 const * m)
 extern void LICopyMat4Mat3 (LIMat4 * n, LIMat3 const * m);
 
 
+#pragma mark - Camera
+
+/**
+ * Make modelview lookat-matrix
+ */
+extern void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up);
+
+/**
+ * Make orthogonal projection matrix
+ */
+extern void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far);
+
+/**
+ * Make perspective projection matrix
+ */
+extern void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far, LIFloat fovy);
+
+/**
+ * Project point on screen
+ * If `projection` is NULL, `modelView` is interpreted as pre-calculated
+ * modelview projection matrix (P * M)
+ */
+extern int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
+
+/**
+ * Unproject point from screen
+ * If `projection` is NULL, `modelView` is interpreted as pre-calculated inverse
+ * of model view projection matrix (P * M) ^ -1
+ */
+extern int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
+
+
 #pragma mark - Print
 
 /**
@@ -881,38 +913,5 @@ extern void LIPrintMat3 (LIMat3 const * m);
  * Print LIMat4
  */
 extern void LIPrintMat4 (LIMat4 const * m);
-
-
-
-#pragma mark - Camera
-
-/**
- * Make modelview lookat-matrix
- */
-extern void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up);
-
-/**
- * Make orthogonal projection matrix
- */
-extern void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far);
-
-/**
- * Make perspective projection matrix
- */
-extern void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far, LIFloat fovy);
-
-/**
- * Project point on screen
- * If `projection` is NULL, `modelView` is interpreted as pre-calculated
- * modelview projection matrix (P * M)
- */
-extern int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
-
-/**
- * Unproject point from screen
- * If `projection` is NULL, `modelView` is interpreted as pre-calculated inverse
- * of model view projection matrix (P * M) ^ -1
- */
-extern int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize);
 
 #endif /* ! _LITHIUM_H_ */
