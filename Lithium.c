@@ -62,7 +62,7 @@ LIVec2 LIRotateVec2 (LIVec2 v, LIFloat r)
 
 LIVec2 LIRotateRelativeVec2 (LIVec2 vector, LIFloat angle, LIVec2 center)
 {
-	// R * (V - C) + C
+	// (v - c) *^ a + c
 	return LIAddVec2 (LIRotateVec2 (LISubVec2 (vector, center), angle), center);
 }
 
@@ -86,7 +86,7 @@ LIVec3 LIRotateVec3 (LIVec3 v, LIVec3 a, LIFloat r)
 
 LIVec3 LIRotateRelativeVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle, LIVec3 center)
 {
-	// R * (V - C) + C
+	// (v - c) *^ a + c
 	return LIAddVec3 (LIRotateVec3 (LISubVec3 (vector, center), axis, angle), center);
 }
 
@@ -631,7 +631,7 @@ LIVec4 LIMultMat4Vec4 (LIMat4 const * m, LIVec4 v)
 //	// Build augmented matrix (A)
 //	memcpy (& inverse [0], m, cols * rows * sizeof (LIFloat));
 //
-//	// Make identity matrix in extra matrix
+//	// make identity matrix in extra matrix
 //	for (int i = 0; i < cols; i ++) {
 //		for (int j = 0; j < rows; j ++) {
 //			if (i == j) {
@@ -915,32 +915,26 @@ void LIPrintMat4 (LIMat4 const * m)
 
 void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)
 {
-	//LIVec3 positionTarget = LISubVec3 (lookAt, eye);
-	//
-	//LIVec3 out = LIMultVec3 (LINormalizeVec3 (positionTarget), -1.0); // -||LOS||
-	//LIVec3 rgt = LINormalizeVec3 (LICrossVec3 (up, out));             // ||Up × Out||
-	//LIVec3 upr = LICrossVec3 (out, rgt);                              // Out × Right
-
 	LIVec3 out = LINormalizeVec3 (LISubVec3 (eye, lookAt));  // -||LOS||
 	LIVec3 rgt = LINormalizeVec3 (LICrossVec3 (up, out));    // ||Up × Out||
 	LIVec3 upr = LICrossVec3 (out, rgt);                     // Out × Right
 
-	// Right
+	// right
 	m -> m00 = rgt.x;
 	m -> m10 = rgt.y;
 	m -> m20 = rgt.z;
 
-	// Up
+	// up
 	m -> m01 = upr.x;
 	m -> m11 = upr.y;
 	m -> m21 = upr.z;
 
-	// Out
+	// out
 	m -> m02 = out.x;
 	m -> m12 = out.y;
 	m -> m22 = out.z;
 
-	// Translation
+	// translation
 	m -> m30 = m -> m00 * -eye.x + m -> m10 * -eye.y + m -> m20 * -eye.z;
 	m -> m31 = m -> m01 * -eye.x + m -> m11 * -eye.y + m -> m21 * -eye.z;
 	m -> m32 = m -> m02 * -eye.x + m -> m12 * -eye.y + m -> m22 * -eye.z;
@@ -1037,11 +1031,11 @@ bool LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LI
 
 	if (projection != NULL) {
 		// P * (M * V)
-		// Same as: (P * M) * V; but faster
+		// same as: (P * M) * V; but faster
 		v = LIMultMat4Vec4 (modelView, v);
 		v = LIMultMat4Vec4 (projection, v);
 	}
-	// Interpret `modelView` as pre-calculated modelview projection matrix (P * M)
+	// interpret `modelView` as pre-calculated modelview projection matrix (P * M)
 	else {
 		v = LIMultMat4Vec4 (modelView, v);
 	}
@@ -1076,7 +1070,7 @@ bool LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, 
 	LIMat4 const * inv;
 	LIVec4         v;
 
-	// Make inverse of modelview projection matrix
+	// make inverse of modelview projection matrix
 	if (projection != NULL) {
 		LIMultMat4 (& imvp, projection, modelView);
 
@@ -1085,18 +1079,18 @@ bool LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, 
 
 		inv = & imvp;
 	}
-	// Interpret `modelView` as pre-calculated inverse of model view projection matrix (P * M) ^ -1
+	// interpret `modelView` as pre-calculated inverse of model view projection matrix (P * M) ^ -1
 	else {
 		inv = modelView;
 	}
 
 	v = LIMakeVec4 (screen.x, screen.y, screen.z, 1.0);
 
-	// Map from screen coordinates
+	// map from screen coordinates
 	v.x = (v.x - viewportPosition.x) / viewportSize.x;
 	v.y = (v.y - viewportPosition.y) / viewportSize.y;
 
-	// Map to range -1.0 to 1.0
+	// map to range -1.0 to 1.0
 	v.x = v.x * 2.0 - 1.0;
 	v.y = v.y * 2.0 - 1.0;
 	v.z = v.z * 2.0 - 1.0;
