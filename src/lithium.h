@@ -32,7 +32,9 @@
 /**
  * Set to 1 if double values should be used
  */
-#define LI_USE_DOUBLE 0
+#ifndef LI_USE_DOUBLE
+#define LI_USE_DOUBLE 1
+#endif
 
 /**
  * Vector and matrix types and functions
