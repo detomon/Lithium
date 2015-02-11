@@ -30,41 +30,59 @@
 #include <string.h>
 
 /**
- * Set to 1 if double values should be used
+ * Float type
  */
-#ifndef LI_USE_DOUBLE
-#define LI_USE_DOUBLE 1
+#ifndef LI_FLOAT_TYPE
+#define LI_FLOAT_TYPE double
 #endif
 
 /**
- * Vector and matrix types and functions
+ * Trigonometric functions
+ */
+#ifndef LI_SIN
+#define LI_SIN sin
+#endif
+#define LISin(v) LI_SIN(v)
+
+#ifndef LI_COS
+#define LI_COS cos
+#endif
+#define LICos(v) LI_COS(v)
+
+#ifndef LI_TAN
+#define LI_TAN tan
+#endif
+#define LITan(v) LI_TAN(v)
+
+#ifndef LI_SQRT
+#define LI_SQRT sqrt
+#endif
+#define LISqrt(v) LI_SQRT(v)
+
+/**
+ * Define PI if needed
+ */
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
+/**
+ * Set to 1 if matrix fields should be ordered as used by OpenGL
+ */
+#ifndef LI_MAT_FIELDS_TRANSPOSED
+#define LI_MAT_FIELDS_TRANSPOSED 1
+#endif
+
+/**
+ * Vector and matrix types
  */
 
 #pragma mark - Types
 
 /**
- * LIFloat type
+ * Float type
  */
-#if LI_USE_DOUBLE
-typedef double LIFloat;
-#else
-typedef float  LIFloat;
-#endif
-
-/**
- * Math functions depending on float type
- */
-#if LI_USE_DOUBLE
-#	define LISin(v) sin(v)
-#	define LICos(v) cos(v)
-#	define LITan(v) tan(v)
-#	define LISqrt(v) sqrt(v)
-#else
-#	define LISin(v) sinf(v)
-#	define LICos(v) cosf(v)
-#	define LITan(v) tanf(v)
-#	define LISqrt(v) sqrtf(v)
-#endif
+typedef LI_FLOAT_TYPE LIFloat;
 
 /**
  * 2-component vector
@@ -100,27 +118,45 @@ typedef struct
  * 2×2-component matrix
  */
 typedef struct {
+#if LI_MAT_FIELDS_TRANSPOSED
 	LIFloat m00, m01;
 	LIFloat m10, m11;
+#else
+	LIFloat m00, m10;
+	LIFloat m01, m11;
+#endif
 } LIMat2;
 
 /**
  * 3×3-component matrix
  */
 typedef struct {
+#if LI_MAT_FIELDS_TRANSPOSED
 	LIFloat m00, m01, m02;
 	LIFloat m10, m11, m12;
 	LIFloat m20, m21, m22;
+#else
+	LIFloat m00, m10, m20;
+	LIFloat m01, m11, m21;
+	LIFloat m02, m12, m22;
+#endif
 } LIMat3;
 
 /**
  * 4×4-component matrix
  */
 typedef struct {
+#if LI_MAT_FIELDS_TRANSPOSED
 	LIFloat m00, m01, m02, m03;
 	LIFloat m10, m11, m12, m13;
 	LIFloat m20, m21, m22, m23;
 	LIFloat m30, m31, m32, m33;
+#else
+	LIFloat m00, m10, m20, m30;
+	LIFloat m01, m11, m21, m31;
+	LIFloat m02, m12, m22, m32;
+	LIFloat m03, m13, m23, m33;
+#endif
 } LIMat4;
 
 
@@ -142,7 +178,7 @@ typedef struct {
 #define LIMax(a, b) ((a) > (b) ? (a) : (b))
 
 /**
- * Clamp value v to low value l and high value h
+ * Clamp value `v` to low value `l` and high value `h`
  */
 #define LIClamp(v, l, h) ((v) < (l) ? (l) : ((v) > (h) ? (h) : (v)))
 
@@ -151,7 +187,7 @@ typedef struct {
  */
 static LIFloat LIRadToDegree (LIFloat rad)
 {
-	return rad / M_PI * 180.0;
+	return rad * (180.0 / M_PI);
 }
 
 /**
@@ -159,7 +195,7 @@ static LIFloat LIRadToDegree (LIFloat rad)
  */
 static LIFloat LIDegreeToRad (LIFloat degree)
 {
-	return degree / 180.0 * M_PI;
+	return degree * (M_PI / 180.0);
 }
 
 
@@ -313,7 +349,7 @@ static LIVec4 LISubVec4 (LIVec4 a, LIVec4 b)
 }
 
 /**
- * Multiply vector
+ * Multiply vector with single value
  */
 static LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)
 {
@@ -324,7 +360,7 @@ static LIVec2 LIMultVec2 (LIVec2 a, LIFloat l)
 }
 
 /**
- * Multiply vector
+ * Multiply vector with single value
  */
 static LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)
 {
@@ -336,7 +372,7 @@ static LIVec3 LIMultVec3 (LIVec3 a, LIFloat l)
 }
 
 /**
- * Multiply vector
+ * Multiply vector with single value
  */
 static LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)
 {
@@ -348,11 +384,35 @@ static LIVec4 LIMultVec4 (LIVec4 a, LIFloat l)
 	);
 }
 
+/**
+ * Divide vector by single value
+ */
+static LIVec2 LIDivVec2 (LIVec2 a, LIFloat l)
+{
+	return LIMultVec2 (a, 1.0 / l);
+}
+
+/**
+ * Divide vector by single value
+ */
+static LIVec3 LIDivVec3 (LIVec3 a, LIFloat l)
+{
+	return LIMultVec3 (a, 1.0 / l);
+}
+
+/**
+ * Divide vector by single value
+ */
+static LIVec4 LIDivVec4 (LIVec4 a, LIFloat l)
+{
+	return LIMultVec4 (a, 1.0 / l);
+}
+
 
 #pragma mark - Other
 
 /**
- * Get length of vector
+ * Length of vector
  */
 static LIFloat LILengthVec2 (LIVec2 v)
 {
@@ -360,11 +420,19 @@ static LIFloat LILengthVec2 (LIVec2 v)
 }
 
 /**
- * Get length of vector
+ * Length of vector
  */
 static LIFloat LILengthVec3 (LIVec3 v)
 {
 	return LISqrt (v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+/**
+ * Length of vector
+ */
+static LIFloat LILengthVec4 (LIVec4 v)
+{
+	return LISqrt (v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
 }
 
 /**
@@ -384,83 +452,80 @@ static LIFloat LIDistanceVec3 (LIVec3 a, LIVec3 b)
 }
 
 /**
- * Normalize vector to length of 1.0
+ * Distance
  */
-static LIVec2 LINormalizeVec2 (LIVec2 v)
+static LIFloat LIDistanceVec4 (LIVec4 a, LIVec4 b)
 {
-	LIFloat l = LILengthVec2 (v);
-
-	if (l != 0.0) {
-		v.x /= l;
-		v.y /= l;
-	}
-	else {
-		v.x = 0.0;
-		v.y = 0.0;
-	}
-
-	return v;
+	return LILengthVec4 (LISubVec4 (a, b));
 }
 
 /**
- * Normalize vector to length of a
+ * Normalize vector to length `a`
  */
 static LIVec2 LINormalizeMultVec2 (LIVec2 v, LIFloat a)
 {
-	LIFloat l = a != 0.0 ? LILengthVec2 (v) / a : 0.0;
+	LIFloat l = LILengthVec2 (v);
+	l = l ? a / l : 0.0;
 
-	if (l != 0.0) {
-		v.x /= l;
-		v.y /= l;
-	}
-	else {
-		v.x = 0.0;
-		v.y = 0.0;
-	}
+	v.x *= l;
+	v.y *= l;
 
 	return v;
 }
 
 /**
- * Normalize vector to length of 1.0
- */
-static LIVec3 LINormalizeVec3 (LIVec3 v)
-{
-	LIFloat l = LILengthVec3 (v);
-
-	if (l != 0.0) {
-		v.x /= l;
-		v.y /= l;
-		v.z /= l;
-	}
-	else {
-		v.x = 0.0;
-		v.y = 0.0;
-		v.z = 0.0;
-	}
-
-	return v;
-}
-
-/**
- * Normalize vector to length of a
+ * Normalize vector to length `a`
  */
 static LIVec3 LINormalizeMultVec3 (LIVec3 v, LIFloat a)
 {
-	LIFloat l = a != 0.0 ? LILengthVec3 (v) / a : 0.0;
+	LIFloat l = LILengthVec3 (v);
+	l = l ? a / l : 0.0;
 
-	if (l != 0.0) {
-		v.x /= l;
-		v.y /= l;
-		v.z /= l;
-	}
-	else {
-		v.x = 0.0;
-		v.y = 0.0;
-		v.z = 0.0;
-	}
+	v.x *= l;
+	v.y *= l;
+	v.z *= l;
 
 	return v;
+}
+
+/**
+ * Normalize vector to length `a`
+ */
+static LIVec4 LINormalizeMultVec4 (LIVec4 v, LIFloat a)
+{
+	LIFloat l = LILengthVec4 (v);
+	l = l ? a / l : 0.0;
+
+	v.x *= l;
+	v.y *= l;
+	v.z *= l;
+	v.w *= l;
+
+	return v;
+}
+
+/**
+ * Normalize vector to length 1.0
+ */
+static LIVec2 LINormalizeVec2 (LIVec2 v)
+{
+	return LINormalizeMultVec2 (v, 1.0);
+}
+
+/**
+ * Normalize vector to length 1.0
+ */
+static LIVec3 LINormalizeVec3 (LIVec3 v)
+{
+	return LINormalizeMultVec3 (v, 1.0);
+}
+
+/**
+ * Normalize vector to length 1.0
+ */
+static LIVec4 LINormalizeVec4 (LIVec4 v)
+{
+	return LINormalizeMultVec4 (v, 1.0);
 }
 
 /**
@@ -760,7 +825,7 @@ extern LIVec4 LIMultMat4Vec4 (LIMat4 const * m, LIVec4 v);
 /**
  * Invert matrix
  * Write result to r
- * Returns NO if matrix is not invertible
+ * Returns -1 if matrix is not invertible
  * Target and source matrices may be the same
  */
 extern int LIInvertMat2 (LIMat2 * r, LIMat2 const * m);
@@ -768,7 +833,7 @@ extern int LIInvertMat2 (LIMat2 * r, LIMat2 const * m);
 /**
  * Invert matrix
  * Write result to r
- * Returns NO if matrix is not invertible
+ * Returns -1 if matrix is not invertible
  * Target and source matrices may be the same
  */
 extern int LIInvertMat3 (LIMat3 * r, LIMat3 const * m);
@@ -776,7 +841,7 @@ extern int LIInvertMat3 (LIMat3 * r, LIMat3 const * m);
 /**
  * Invert matrix
  * Write result to r
- * Returns NO if matrix is not invertible
+ * Returns -1 if matrix is not invertible
  * Target and source matrices may be the same
  */
 extern int LIInvertMat4 (LIMat4 * r, LIMat4 const * m);
@@ -853,7 +918,7 @@ extern void LICopyMat4Mat3 (LIMat4 * n, LIMat3 const * m);
 #pragma mark - Camera
 
 /**
- * Make modelview lookat-matrix
+ * Make modelview look-at-matrix
  */
 extern void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up);
 

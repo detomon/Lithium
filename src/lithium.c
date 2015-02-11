@@ -22,7 +22,7 @@
  * IN THE SOFTWARE.
  */
 
-#include "Lithium.h"
+#include "lithium.h"
 
 LIMat2 const LIIdentityMat2 =
 {
@@ -62,7 +62,7 @@ LIVec2 LIRotateVec2 (LIVec2 v, LIFloat r)
 
 LIVec2 LIRotateRelativeVec2 (LIVec2 vector, LIFloat angle, LIVec2 center)
 {
-	// (v - c) *^ a + c
+	// ((v - c) *^ a) + c
 	return LIAddVec2 (LIRotateVec2 (LISubVec2 (vector, center), angle), center);
 }
 
@@ -86,7 +86,7 @@ LIVec3 LIRotateVec3 (LIVec3 v, LIVec3 a, LIFloat r)
 
 LIVec3 LIRotateRelativeVec3 (LIVec3 vector, LIVec3 axis, LIFloat angle, LIVec3 center)
 {
-	// (v - c) *^ a + c
+	// ((v - c) *^ (a, ax)) + c
 	return LIAddVec3 (LIRotateVec3 (LISubVec3 (vector, center), axis, angle), center);
 }
 
@@ -621,9 +621,9 @@ LIVec3 LIMultMat4Vec3 (LIMat4 const * m, LIVec3 v)
 	LIVec3 vm;
 
 	// v = {x, y, z, w=1.0}
-	vm.x = m -> m00 * v.x + m -> m10 * v.y + m -> m20 * v.z + m -> m30 * 1.0;
-	vm.y = m -> m01 * v.x + m -> m11 * v.y + m -> m21 * v.z + m -> m31 * 1.0;
-	vm.z = m -> m02 * v.x + m -> m12 * v.y + m -> m22 * v.z + m -> m32 * 1.0;
+	vm.x = m -> m00 * v.x + m -> m10 * v.y + m -> m20 * v.z + m -> m30;
+	vm.y = m -> m01 * v.x + m -> m11 * v.y + m -> m21 * v.z + m -> m31;
+	vm.z = m -> m02 * v.x + m -> m12 * v.y + m -> m22 * v.z + m -> m32;
 
 	return vm;
 }
@@ -639,84 +639,6 @@ LIVec4 LIMultMat4Vec4 (LIMat4 const * m, LIVec4 v)
 
 	return vm;
 }
-
-///**
-// * Gauss-Jordan Elimination
-// * Mathematics for 3D Programming & Computer Graphics / Second Edition
-// * Page 45
-// */
-///*
-//static int LIMatNMInvert (LIFloat * r, const LIFloat * m, unsigned cols, unsigned rows)
-//{
-//	// Augmented matrix
-//	// r r r 1 0 0
-//	// r r r 0 1 0
-//	// r r r 0 0 1
-//
-//	LIFloat inverse [cols * 2][rows];
-//
-//	// Build augmented matrix (A)
-//	memcpy (& inverse [0], m, cols * rows * sizeof (LIFloat));
-//
-//	// make identity matrix in extra matrix
-//	for (int i = 0; i < cols; i ++) {
-//		for (int j = 0; j < rows; j ++) {
-//			if (i == j) {
-//				inverse [i + cols][j] = 1.0;
-//			} else {
-//				inverse [i + cols][j] = 0.0;
-//			}
-//		}
-//	}
-//
-//	// Loop through columns 1 to n (B)
-//	for (int j = 0; j < cols; j ++) {
-//		int     i = j;
-//		LIFloat v = LIAbs (inverse [j][j]);
-//
-//		// Search for largest absolute value in column with i >= j (C)
-//		for (int r = j; r < rows; r ++) {
-//			LIFloat av = LIAbs (inverse [j][r]);
-//			if (av > v) {
-//				v = av;
-//				i = r;
-//			}
-//		}
-//
-//		// No value != 0; Matrix not invertible
-//		if (v == 0.0)
-//			return -1;
-//
-//		// Exchange row i with row j (D)
-//		if (i != j) {
-//			for (int c = 0; c < cols * 2; c ++) {
-//				LIFloat t = inverse [c][i];
-//				inverse [c][i] = inverse [c][j];
-//				inverse [c][j] = t;
-//			}
-//		}
-//
-//		// Normalize row j (E)
-//		LIFloat d = inverse [j][j];
-//
-//		for (int r = 0; r < cols * 2; r ++)
-//			inverse [r][j] /= d;
-//
-//		// (F)
-//		for (int r = 0; r < rows; r ++) {
-//			if (r != j) {
-//				LIFloat v = inverse [j][r];
-//				for (int c = 0; c < cols * 2; c ++)
-//					inverse [c][r] += -v * inverse [c][j];
-//			}
-//		}
-//	}
-//
-//	// Copy extra columns of augmented matrix
-//	memcpy (r, & inverse [cols][0], sizeof (LIMat3));
-//
-//	return 0;
-//}
 
 int LIInvertMat2 (LIMat2 * r, LIMat2 const * m)
 {
@@ -785,7 +707,7 @@ int LIInvertMat3 (LIMat3 * r, LIMat3 const * m)
 int LIInvertMat4 (LIMat4 * r, LIMat4 const * m)
 {
 	LIMat4   r0;
-	int     makeCopy = (r == m);
+	int      makeCopy = (r == m);
 	LIMat4 * inv = makeCopy ? & r0 : r;
 	LIFloat  det;
 
@@ -914,9 +836,9 @@ void LITransposeMat4 (LIMat4 * r, LIMat4 const * m)
 
 void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)
 {
-	LIVec3 out = LINormalizeVec3 (LISubVec3 (eye, lookAt));  // -||LOS||
-	LIVec3 rgt = LINormalizeVec3 (LICrossVec3 (up, out));    // ||Up × Out||
-	LIVec3 upr = LICrossVec3 (out, rgt);                     // Out × Right
+	LIVec3 out = LINormalizeVec3 (LISubVec3 (eye, lookAt)); // -||LOS||
+	LIVec3 rgt = LINormalizeVec3 (LICrossVec3 (up, out));   // ||Up × Out||
+	LIVec3 upr = LICrossVec3 (out, rgt);                    // Out × Right
 
 	// right
 	m -> m00 = rgt.x;
@@ -946,10 +868,10 @@ void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)
 
 void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far)
 {
-	LIFloat left   = -viewportSize.x / 2.0;
-	LIFloat right  =  viewportSize.x / 2.0;
-	LIFloat bottom = -viewportSize.y / 2.0;
-	LIFloat top    =  viewportSize.y / 2.0;
+	LIFloat left   = -viewportSize.x * 0.5;
+	LIFloat right  =  viewportSize.x * 0.5;
+	LIFloat bottom = -viewportSize.y * 0.5;
+	LIFloat top    =  viewportSize.y * 0.5;
 
 	m -> m00 = 2.0 / (right - left);
 	m -> m10 = 0.0;
@@ -998,35 +920,9 @@ void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat n
 	m -> m33 = 0.0;
 }
 
-//void LIMat4MakeProjectionPerspectiveFOVX (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far, LIFloat fovx)
-//{
-//	LIFloat aspect = viewportSize.y / viewportSize.x;
-//	LIFloat f = 1.0 / LITan (LIDegreeToRad (fovx));
-//
-//	m -> m00 = f;
-//	m -> m10 = 0.0;
-//	m -> m20 = 0.0;
-//	m -> m30 = 0.0;
-//
-//	m -> m01 = 0.0;
-//	m -> m11 = f / aspect;
-//	m -> m21 = 0.0;
-//	m -> m31 = 0.0;
-//
-//	m -> m02 = 0.0;
-//	m -> m12 = 0.0;
-//	m -> m22 = (far + near) / (near - far);
-//	m -> m32 = (2.0 * far * near) / (near - far);
-//
-//	m -> m03 = 0.0;
-//	m -> m13 = 0.0;
-//	m -> m23 = -1.0;
-//	m -> m33 = 0.0;
-//}
-
 int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIMat4 const * projection, LIVec2 viewportPosition, LIVec2 viewportSize)
 {
-	LIVec4 v = LIMakeVec4 (object.x, object.y, object.z, 1.0);
+	LIVec4 v = LIMakeVec4Vec3 (object, 1.0);
 
 	if (projection != NULL) {
 		// P * (M * V)
@@ -1047,7 +943,7 @@ int LIProjectVec3 (LIVec3 * screen, LIVec3 object, LIMat4 const * modelView, LIM
 	v.y /= v.w;
 	v.z /= v.w;
 
-	// map to range 0.0 to 1.0
+	// map from (-1.0, 1.0) to (0.0, 1.0)
 	v.x = v.x * 0.5 + 0.5;
 	v.y = v.y * 0.5 + 0.5;
 	v.z = v.z * 0.5 + 0.5;
@@ -1084,13 +980,13 @@ int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, L
 		inv = modelView;
 	}
 
-	v = LIMakeVec4 (screen.x, screen.y, screen.z, 1.0);
+	v = LIMakeVec4Vec3 (screen, 1.0);
 
 	// map from screen coordinates
 	v.x = (v.x - viewportPosition.x) / viewportSize.x;
 	v.y = (v.y - viewportPosition.y) / viewportSize.y;
 
-	// map to range -1.0 to 1.0
+	// map from (0.0, 1.0) to (-1.0, 1.0)
 	v.x = v.x * 2.0 - 1.0;
 	v.y = v.y * 2.0 - 1.0;
 	v.z = v.z * 2.0 - 1.0;
@@ -1114,42 +1010,42 @@ int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, L
 
 void LIPrintVec2 (LIVec2 v)
 {
-	printf ("%f  %f\n", v.x, v.y);
+	printf ("%f, %f\n", v.x, v.y);
 	printf ("\n");
 }
 
 void LIPrintVec3 (LIVec3 v)
 {
-	printf ("%f  %f  %f\n", v.x, v.y, v.z);
+	printf ("%f, %f, %f\n", v.x, v.y, v.z);
 	printf ("\n");
 }
 
 void LIPrintVec4 (LIVec4 v)
 {
-	printf ("%f  %f  %f  %f\n", v.x, v.y, v.z, v.w);
+	printf ("%f, %f, %f, %f\n", v.x, v.y, v.z, v.w);
 	printf ("\n");
 }
 
 void LIPrintMat2 (LIMat2 const * m)
 {
-	printf ("%9.6f %9.6f\n", m -> m00, m -> m10);
-	printf ("%9.6f %9.6f\n", m -> m01, m -> m11);
+	printf ("%9.6f, %9.6f,\n", m -> m00, m -> m10);
+	printf ("%9.6f, %9.6f,\n", m -> m01, m -> m11);
 	printf ("\n");
 }
 
 void LIPrintMat3 (LIMat3 const * m)
 {
-	printf ("%9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20);
-	printf ("%9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21);
-	printf ("%9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22);
+	printf ("%9.6f, %9.6f, %9.6f,\n", m -> m00, m -> m10, m -> m20);
+	printf ("%9.6f, %9.6f, %9.6f,\n", m -> m01, m -> m11, m -> m21);
+	printf ("%9.6f, %9.6f, %9.6f,\n", m -> m02, m -> m12, m -> m22);
 	printf ("\n");
 }
 
 void LIPrintMat4 (LIMat4 const * m)
 {
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m00, m -> m10, m -> m20, m -> m30);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m01, m -> m11, m -> m21, m -> m31);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m02, m -> m12, m -> m22, m -> m32);
-	printf ("%9.6f %9.6f %9.6f %9.6f\n", m -> m03, m -> m13, m -> m23, m -> m33);
+	printf ("%9.6f, %9.6f, %9.6f, %9.6f,\n", m -> m00, m -> m10, m -> m20, m -> m30);
+	printf ("%9.6f, %9.6f, %9.6f, %9.6f,\n", m -> m01, m -> m11, m -> m21, m -> m31);
+	printf ("%9.6f, %9.6f, %9.6f, %9.6f,\n", m -> m02, m -> m12, m -> m22, m -> m32);
+	printf ("%9.6f, %9.6f, %9.6f, %9.6f,\n", m -> m03, m -> m13, m -> m23, m -> m33);
 	printf ("\n");
 }
