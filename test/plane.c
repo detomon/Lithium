@@ -13,8 +13,8 @@ static int vec2 ()
 	LIPrintVec3 (plane);
 
 	if (ApproxVec3 (plane, result) < 0) {
-		fprintf (stderr, "vec2 failed\n");
-		return -1;
+		fprintf (stderr, "LIMakePlaneVec2 failed\n");
+		return TEST_FAIL;
 	}
 
 	return 0;
@@ -28,14 +28,14 @@ static int vec3 ()
 
 	a     = LIMakeVec3 (8, 3, 2);
 	b     = LIMakeVec3 (4, 5, 6);
-	c     = LIMakeVec3 (-3, 5, -1);
+	c     = LIMakeVec3 (-3, 5, TEST_FAIL);
 	plane = LIMakePlaneVec3 (a, b, c);
 
 	LIPrintVec4 (plane);
 
 	if (ApproxVec4 (plane, result) < 0) {
-		fprintf (stderr, "vec3 failed\n");
-		return -1;
+		fprintf (stderr, "LIMakePlaneVec3 failed\n");
+		return TEST_FAIL;
 	}
 
 	return 0;

@@ -9,11 +9,9 @@ static int vec2 ()
 	w = LIMakeVec2 (-5, -6);
 	r = LIReflectVec2 (a, w);
 
-	LIPrintVec2 (r);
-
 	if (ApproxVec2 (r, result) < 0) {
-		fprintf (stderr, "vec2 failed\n");
-		return -1;
+		fprintf (stderr, "LIReflectVec2 failed\n");
+		return TEST_FAIL;
 	}
 
 	return 0;
@@ -22,17 +20,15 @@ static int vec2 ()
 static int vec3 ()
 {
 	LIVec3 a, w, r;
-	LIVec3 result = LIMakeVec3 (-5.272727, -1.727273, -6.181818);
+	LIVec3 result = LIMakeVec3 (-5.272727, TEST_FAIL.727273, -6.181818);
 
 	a = LIMakeVec3 (2, 7, 4);
 	w = LIMakeVec3 (-5, -6, -7);
 	r = LIReflectVec3 (a, w);
 
-	LIPrintVec3 (r);
-
 	if (ApproxVec3 (r, result) < 0) {
-		fprintf (stderr, "vec3 failed\n");
-		return -1;
+		fprintf (stderr, "LIReflectVec3 failed\n");
+		return TEST_FAIL;
 	}
 
 	return 0;
