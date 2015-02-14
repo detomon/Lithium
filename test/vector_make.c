@@ -1,107 +1,24 @@
 #include "test.h"
 
-static int vec2 ()
-{
-	LIFloat aexp [] = {3.0, 4.0};
-	LIVec2 a;
-
-	a = LIMakeVec2 (3.0, 4.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 2) < 0) {
-		fprintf (stderr, "LIMakeVec2 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec2Vec3 (LIMakeVec3 (3.0, 4.0, 5.0));
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 2) < 0) {
-		fprintf (stderr, "LIMakeVec2Vec3 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec2Vec4 (LIMakeVec4 (3.0, 4.0, 5.0, 6.0));
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 2) < 0) {
-		fprintf (stderr, "LIMakeVec2Vec4 failed\n");
-		return TEST_FAIL;
-	}
-
-	return 0;
-}
-
-static int vec3 ()
-{
-	LIFloat aexp [] = {3.0, 4.0, 5.0};
-	LIVec3 a;
-
-	a = LIMakeVec3 (3.0, 4.0, 5.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 3) < 0) {
-		fprintf (stderr, "LIMakeVec3 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec3Vec4 (LIMakeVec4 (3.0, 4.0, 5.0, 6.0));
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 3) < 0) {
-		fprintf (stderr, "LIMakeVec3Vec4 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec3Vec2 (LIMakeVec2 (3.0, 4.0), 5.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 3) < 0) {
-		fprintf (stderr, "LIMakeVec3Vec2 failed\n");
-		return TEST_FAIL;
-	}
-
-	return 0;
-}
-
-static int vec4 ()
-{
-	LIFloat aexp [] = {3.0, 4.0, 5.0, 6.0};
-	LIVec4 a;
-
-	a = LIMakeVec4 (3.0, 4.0, 5.0, 6.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 4) < 0) {
-		fprintf (stderr, "LIMakeVec4 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec4Vec2 (LIMakeVec2 (3.0, 4.0), 5.0, 6.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 4) < 0) {
-		fprintf (stderr, "LIMakeVec4Vec2 failed\n");
-		return TEST_FAIL;
-	}
-
-	a = LIMakeVec4Vec3 (LIMakeVec3 (3.0, 4.0, 5.0), 6.0);
-
-	if (ApproxVec ((LIFloat *) & a, (LIFloat *) & aexp, 4) < 0) {
-		fprintf (stderr, "LIMakeVec4Vec3 failed\n");
-		return TEST_FAIL;
-	}
-
-	return 0;
-}
-
 int main (int argc, char const * argv [])
 {
-	int res;
+	LIVec2 result2 = (LIVec2) {3.0, 4.0};
 
-	if ((res = vec2 ()) != 0) {
-		return res;
-	}
+	TestVec2 (LIMakeVec2 (3.0, 4.0), result2);
+	TestVec2 (LIMakeVec2Vec3 (LIMakeVec3 (3.0, 4.0, 5.0)), result2);
+	TestVec2 (LIMakeVec2Vec4 (LIMakeVec4 (3.0, 4.0, 5.0, 6.0)), result2);
 
-	if ((res = vec3 ()) != 0) {
-		return res;
-	}
+	LIVec3 result3 = (LIVec3) {3.0, 4.0, 5.0};
 
-	if ((res = vec4 ()) != 0) {
-		return res;
-	}
+	TestVec3 (LIMakeVec3 (3.0, 4.0, 5.0), result3);
+	TestVec3 (LIMakeVec3Vec4 (LIMakeVec4 (3.0, 4.0, 5.0, 6.0)), result3);
+	TestVec3 (LIMakeVec3Vec2 (LIMakeVec2 (3.0, 4.0), 5.0), result3);
 
-	return 0;
+	LIVec4 result4 = (LIVec4) {3.0, 4.0, 5.0, 6.0};
+
+	TestVec4 (LIMakeVec4 (3.0, 4.0, 5.0, 6.0), result4);
+	TestVec4 (LIMakeVec4Vec2 (LIMakeVec2 (3.0, 4.0), 5.0, 6.0), result4);
+	TestVec4 (LIMakeVec4Vec3 (LIMakeVec3 (3.0, 4.0, 5.0), 6.0), result4);
+
+	return STATUS_PASS;
 }

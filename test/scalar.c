@@ -2,62 +2,21 @@
 
 int main (int argc, char const * argv [])
 {
-	LIFloat s = LISin(54);
+	TestFloat (LIAbs (-15), 15);
+	TestFloat (LIAbs (18), 18);
 
-	if (LIAbs (-15) != 15) {
-		fprintf (stderr, "LIAbs failed\n");
-		return TEST_FAIL;
-	}
+	TestFloat (LIMin (-12, -5), -12);
+	TestFloat (LIMin (56, 6), 6);
 
-	if (LIAbs (18) != 18) {
-		fprintf (stderr, "LIAbs failed\n");
-		return TEST_FAIL;
-	}
+	TestFloat (LIMax (23, 9), 23);
+	TestFloat (LIMax (-1, -17), -1);
 
-	if (LIMin (-12, -5) != -12) {
-		fprintf (stderr, "LIMin failed\n");
-		return TEST_FAIL;
-	}
+	TestFloat (LIClamp (10, -5, 15), 10);
+	TestFloat (LIClamp (10, 12, 25), 12);
+	TestFloat (LIClamp (10, -9, 7), 7);
 
-	if (LIMin (56, 6) != 6) {
-		fprintf (stderr, "LIMin failed\n");
-		return TEST_FAIL;
-	}
-
-	if (LIMax (23, 9) != 23) {
-		fprintf (stderr, "LIMax failed\n");
-		return TEST_FAIL;
-	}
-
-	if (LIMax (-1, -17) != -1) {
-		fprintf (stderr, "LIMax failed\n");
-		return TEST_FAIL;
-	}
-
-	if (LIClamp (10, -5, 15) != 10) {
-		fprintf (stderr, "LIClamp failed\n");
-		return TEST_FAIL;
-	}
-
-	if (LIClamp (10, 12, 25) != 12) {
-		fprintf (stderr, "LIClamp failed\n");
-		return TEST_FAIL;
-	}
-
-	if (LIClamp (10, -9, 7) != 7) {
-		fprintf (stderr, "LIClamp failed\n");
-		return TEST_FAIL;
-	}
-
-	if (APPROX (LIRadToDegree (0.872664626), 50) < 0) {
-		fprintf (stderr, "LIClamp failed\n");
-		return TEST_FAIL;
-	}
-
-	if (APPROX (LIDegreeToRad (60), -1.0471975512) < 0) {
-		fprintf (stderr, "LIClamp failed\n");
-		return TEST_FAIL;
-	}
+	TestFloat (LIRadToDegree (0.872664626), 50);
+	TestFloat (LIDegreeToRad (-60), -1.0471975512);
 
 	return 0;
 }
