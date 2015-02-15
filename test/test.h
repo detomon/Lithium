@@ -14,9 +14,9 @@
 #define APPROX_DELTA 0.00001
 #define Approx(a, b) (ABS((a) - (b)) <= APPROX_DELTA)
 
-#define TestFloat(a, b, ...) \
+#define TestValue(a, b, ...) \
 	if (!Approx(a, b)) { \
-		fprintf (stderr, "TestFloat:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "TestValue:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
