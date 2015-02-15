@@ -409,7 +409,7 @@ static LIVec4 LIDivVec4 (LIVec4 a, LIFloat l)
 }
 
 
-#pragma mark - Other
+#pragma mark - Length and normalization
 
 /**
  * Length of vector
@@ -527,6 +527,9 @@ static LIVec4 LINormalizeVec4 (LIVec4 v)
 {
 	return LINormalizeMultVec4 (v, 1.0);
 }
+
+
+#pragma mark - Dot and cross product
 
 /**
  * Dot product of two vectors
