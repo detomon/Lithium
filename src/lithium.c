@@ -599,8 +599,8 @@ LIVec2 LIMultMat3Vec2 (LIMat3 const * m, LIVec2 v)
 {
 	LIVec2 vm;
 
-	vm.x = m -> m00 * v.x + m -> m10 * v.y;
-	vm.y = m -> m01 * v.x + m -> m11 * v.y;
+	vm.x = m -> m00 * v.x + m -> m10 * v.y + m -> m20;
+	vm.y = m -> m01 * v.x + m -> m11 * v.y + m -> m21;
 
 	return vm;
 }
