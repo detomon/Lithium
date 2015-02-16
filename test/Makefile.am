@@ -9,6 +9,7 @@ TEST_NAMES = \
 	rotate \
 	reflect \
 	plane \
+	matrix_make \
 	matrix_invert
 
 check_PROGRAMS = $(TEST_NAMES)
@@ -21,6 +22,7 @@ dot_cross             = dot_cross.c
 rotate                = rotate.c
 plane_SOURCES         = plane.c
 reflect_SOURCES       = reflect.c
+matrix_make_SOURCES   = matrix_make.c
 matrix_invert_SOURCES = matrix_invert.c
 
 TESTS_ENVIRONMENT = top_builddir=$(top_builddir)
