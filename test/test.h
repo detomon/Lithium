@@ -16,43 +16,43 @@
 
 #define TestValue(a, b, ...) \
 	if (!Approx(a, b)) { \
-		fprintf (stderr, "TestValue:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestValue:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestVec2(a, b, ...) \
 	if (!ApproxVec2(a, b)) { \
-		fprintf (stderr, "TestVec2:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestVec2:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestVec3(a, b, ...) \
 	if (!ApproxVec3(a, b)) { \
-		fprintf (stderr, "TestVec3:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestVec3:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestVec4(a, b, ...) \
 	if (!ApproxVec4(a, b)) { \
-		fprintf (stderr, "TestVec4:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestVec4:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestMat2(a, b, ...) \
 	if (!ApproxMat2(&a, &b)) { \
-		fprintf (stderr, "TestMat2:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestMat2:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestMat3(a, b, ...) \
 	if (!ApproxMat3(&a, &b)) { \
-		fprintf (stderr, "TestMat3:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestMat3:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
 #define TestMat4(a, b, ...) \
 	if (!ApproxMat4(&a, &b)) { \
-		fprintf (stderr, "TestMat4:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
+		fprintf (stderr, "Failed: TestMat4:%u: " #a ", " #b "\n", __LINE__, ##__VA_ARGS__); \
 		exit(STATUS_FAIL); \
 	}
 
