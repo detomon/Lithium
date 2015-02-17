@@ -69,17 +69,17 @@ static int ApproxVec (void const * v1, void const * v2, int n)
 
 static int ApproxVec2 (LIVec2 a, LIVec2 b)
 {
-	return ApproxVec (& a, & b, 2);
+	return ApproxVec (&a, &b, 2);
 }
 
 static int ApproxVec3 (LIVec3 a, LIVec3 b)
 {
-	return ApproxVec (& a, & b, 3);
+	return ApproxVec (&a, &b, 3);
 }
 
 static int ApproxVec4 (LIVec4 a, LIVec4 b)
 {
-	return ApproxVec (& a, & b, 4);
+	return ApproxVec (&a, &b, 4);
 }
 
 static int ApproxMat2 (LIMat2 const * a, LIMat2 const * b)

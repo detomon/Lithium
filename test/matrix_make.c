@@ -6,13 +6,13 @@ int main (int argc, char const * argv [])
 	LIMat3 m3;
 	LIMat4 m4;
 
-	LIMakeIdentityMat3 (& m3);
-	LIMakeTranslationMat3 (& m3, LIMakeVec2 (7, -9));
-	TestVec2 (LIMultMat3Vec2 (& m3, LIMakeVec2 (1, 2)), LIMakeVec2 (8, -7));
+	LIMakeIdentityMat3 (&m3);
+	LIMakeTranslationMat3 (&m3, LIMakeVec2 (7, -9));
+	TestVec2 (LIMultMat3Vec2 (&m3, LIMakeVec2 (1, 2)), LIMakeVec2 (8, -7));
 
-	LIMakeIdentityMat4 (& m4);
-	LIMakeTranslationMat4 (& m4, LIMakeVec3 (7, -9, -3));
-	TestVec3 (LIMultMat4Vec3 (& m4, LIMakeVec3 (1, 2, 4)), LIMakeVec3 (8, -7, 1));
+	LIMakeIdentityMat4 (&m4);
+	LIMakeTranslationMat4 (&m4, LIMakeVec3 (7, -9, -3));
+	TestVec3 (LIMultMat4Vec3 (&m4, LIMakeVec3 (1, 2, 4)), LIMakeVec3 (8, -7, 1));
 
 	/*LIMakeScaleMat2
 	LIMakeScaleMat3

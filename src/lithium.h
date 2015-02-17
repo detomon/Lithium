@@ -642,7 +642,7 @@ extern const LIMat4 LIIdentityMat4;
  */
 static void LIMakeIdentityMat2 (LIMat2 * m)
 {
-	memcpy (m, & LIIdentityMat2, sizeof (LIMat2));
+	memcpy (m, &LIIdentityMat2, sizeof (LIMat2));
 }
 
 /**
@@ -650,7 +650,7 @@ static void LIMakeIdentityMat2 (LIMat2 * m)
  */
 static void LIMakeIdentityMat3 (LIMat3 * m)
 {
-	memcpy (m, & LIIdentityMat3, sizeof (LIMat3));
+	memcpy (m, &LIIdentityMat3, sizeof (LIMat3));
 }
 
 /**
@@ -658,7 +658,7 @@ static void LIMakeIdentityMat3 (LIMat3 * m)
  */
 static void LIMakeIdentityMat4 (LIMat4 * m)
 {
-	memcpy (m, & LIIdentityMat4, sizeof (LIMat4));
+	memcpy (m, &LIIdentityMat4, sizeof (LIMat4));
 }
 
 /**

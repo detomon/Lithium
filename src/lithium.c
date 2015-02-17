@@ -432,39 +432,39 @@ void LIRotateMat2 (LIMat2 * m, LIFloat a)
 {
 	LIMat2 r;
 
-	LIMakeRotationMat2 (& r, a);
-	LIMultMat2 (m, m, & r);
+	LIMakeRotationMat2 (&r, a);
+	LIMultMat2 (m, m, &r);
 }
 
 void LIRotateMat3 (LIMat3 * m, LIFloat a)
 {
 	LIMat2 r;
 
-	LIMakeRotationMat2 (& r, a);
-	LIMultMat3Mat2 (m, m, & r);
+	LIMakeRotationMat2 (&r, a);
+	LIMultMat3Mat2 (m, m, &r);
 }
 
 void LIRotateMat3Vec3 (LIMat3 * m, LIVec3 v, LIFloat a)
 {
 	LIMat3 r;
 
-	LIMakeRotationMat3Vec3 (& r, v, a);
-	LIMultMat3 (m, m, & r);
+	LIMakeRotationMat3Vec3 (&r, v, a);
+	LIMultMat3 (m, m, &r);
 }
 
 void LIRotateMat4 (LIMat4 * m, LIVec3 v, LIFloat a)
 {
 	LIMat4 r;
 
-	LIMakeRotationMat4 (& r, v, a);
-	LIMultMat4 (m, m, & r);
+	LIMakeRotationMat4 (&r, v, a);
+	LIMultMat4 (m, m, &r);
 }
 
 void LIMultMat2 (LIMat2 * r, LIMat2 const * m1, LIMat2 const * m2)
 {
 	LIMat2   r0;
 	int      makeCopy = (r == m1 || r == m2);
-	LIMat2 * result = makeCopy ? & r0 : r;
+	LIMat2 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m1 -> m00 * m2 -> m00 + m1 -> m10 * m2 -> m01;
 	result -> m01 = m1 -> m01 * m2 -> m00 + m1 -> m11 * m2 -> m01;
@@ -481,7 +481,7 @@ void LIMultMat3 (LIMat3 * r, LIMat3 const * m1, LIMat3 const * m2)
 {
 	LIMat3   r0;
 	int      makeCopy = (r == m1 || r == m2);
-	LIMat3 * result = makeCopy ? & r0 : r;
+	LIMat3 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m1 -> m00 * m2 -> m00 + m1 -> m10 * m2 -> m01 + m1 -> m20 * m2 -> m02;
 	result -> m01 = m1 -> m01 * m2 -> m00 + m1 -> m11 * m2 -> m01 + m1 -> m21 * m2 -> m02;
@@ -504,7 +504,7 @@ void LIMultMat3Mat2 (LIMat3 * r, LIMat3 const * m1, LIMat2 const * m2)
 {
 	LIMat3   r0;
 	int      makeCopy = (r == m1);
-	LIMat3 * result = makeCopy ? & r0 : r;
+	LIMat3 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m1 -> m00 * m2 -> m00 + m1 -> m10 * m2 -> m01;
 	result -> m01 = m1 -> m01 * m2 -> m00 + m1 -> m11 * m2 -> m01;
@@ -527,7 +527,7 @@ void LIMultMat4 (LIMat4 * r, LIMat4 const * m1, LIMat4 const * m2)
 {
 	LIMat4   r0;
 	int      makeCopy = (r == m1 || r == m2);
-	LIMat4 * result = makeCopy ? & r0 : r;
+	LIMat4 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m1 -> m00 * m2 -> m00 + m1 -> m10 * m2 -> m01 + m1 -> m20 * m2 -> m02 + m1 -> m30 * m2 -> m03;
 	result -> m01 = m1 -> m01 * m2 -> m00 + m1 -> m11 * m2 -> m01 + m1 -> m21 * m2 -> m02 + m1 -> m31 * m2 -> m03;
@@ -558,7 +558,7 @@ void LIMultMat4Mat3 (LIMat4 * r, LIMat4 const * m1, LIMat3 const * m2)
 {
 	LIMat4   r0;
 	int      makeCopy = (r == m1);
-	LIMat4 * result = makeCopy ? & r0 : r;
+	LIMat4 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m1 -> m00 * m2 -> m00 + m1 -> m10 * m2 -> m01 + m1 -> m20 * m2 -> m02;
 	result -> m01 = m1 -> m01 * m2 -> m00 + m1 -> m11 * m2 -> m01 + m1 -> m21 * m2 -> m02;
@@ -644,7 +644,7 @@ int LIInvertMat2 (LIMat2 * r, LIMat2 const * m)
 {
 	LIMat2   r0;
 	int      makeCopy = (r == m);
-	LIMat2 * result = makeCopy ? & r0 : r;
+	LIMat2 * result = makeCopy ? &r0 : r;
 	LIFloat  det;
 
 	det = m -> m00 * m -> m11 - m -> m01 * m -> m10;
@@ -672,7 +672,7 @@ int LIInvertMat3 (LIMat3 * r, LIMat3 const * m)
 {
 	LIMat3   r0;
 	int      makeCopy = (r == m);
-	LIMat3 * inv = makeCopy ? & r0 : r;
+	LIMat3 * inv = makeCopy ? &r0 : r;
 	LIFloat  det;
 
 	inv -> m00 =  m -> m11 * m -> m22 - m -> m12 * m -> m21;
@@ -708,7 +708,7 @@ int LIInvertMat4 (LIMat4 * r, LIMat4 const * m)
 {
 	LIMat4   r0;
 	int      makeCopy = (r == m);
-	LIMat4 * inv = makeCopy ? & r0 : r;
+	LIMat4 * inv = makeCopy ? &r0 : r;
 	LIFloat  det;
 
 	inv -> m00 =  m -> m11 * m -> m22 * m -> m33 - m -> m11 * m -> m32 * m -> m23 - m -> m12 * m -> m21 * m -> m33
@@ -767,7 +767,7 @@ void LITransposeMat2 (LIMat2 * r, LIMat2 const * m)
 {
 	LIMat2   r0;
 	int      makeCopy = (r == m);
-	LIMat2 * result = makeCopy ? & r0 : r;
+	LIMat2 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m -> m00;
 	result -> m01 = m -> m10;
@@ -784,7 +784,7 @@ void LITransposeMat3 (LIMat3 * r, LIMat3 const * m)
 {
 	LIMat3   r0;
 	int      makeCopy = (r == m);
-	LIMat3 * result = makeCopy ? & r0 : r;
+	LIMat3 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m -> m00;
 	result -> m01 = m -> m10;
@@ -807,7 +807,7 @@ void LITransposeMat4 (LIMat4 * r, LIMat4 const * m)
 {
 	LIMat4   r0;
 	int      makeCopy = (r == m);
-	LIMat4 * result = makeCopy ? & r0 : r;
+	LIMat4 * result = makeCopy ? &r0 : r;
 
 	result -> m00 = m -> m00;
 	result -> m01 = m -> m10;
@@ -967,13 +967,13 @@ int LIUnprojectVec3 (LIVec3 * object, LIVec3 screen, LIMat4 const * modelView, L
 
 	// make inverse of modelview projection matrix
 	if (projection != NULL) {
-		LIMultMat4 (& imvp, projection, modelView);
+		LIMultMat4 (&imvp, projection, modelView);
 
-		if (LIInvertMat4 (& imvp, & imvp) < 0) {
+		if (LIInvertMat4 (&imvp, &imvp) < 0) {
 			return -1;
 		}
 
-		inv = & imvp;
+		inv = &imvp;
 	}
 	// interpret `modelView` as pre-calculated inverse of model view projection matrix (P * M) ^ -1
 	else {
