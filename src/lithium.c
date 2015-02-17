@@ -203,7 +203,7 @@ void LIMakeScaleMat3 (LIMat3 * m, LIVec2 v)
 
 	m -> m20 = 0.0;
 	m -> m21 = 0.0;
-	m -> m22 = 0.0;
+	m -> m22 = 1.0;
 }
 
 void LIMakeScaleMat4 (LIMat4 * m, LIVec3 v)
