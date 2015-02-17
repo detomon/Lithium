@@ -1,7 +1,7 @@
 /**
  * Lithium 0.2
  * Copyright (c) 2015 Simon Schoenenberger
- * http://lithium.monoxid.net/
+ * https://github.com/detomon/Lithium
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
