@@ -866,32 +866,44 @@ void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec3 up)
 	m -> m33 = 1.0;
 }
 
-void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far)
+void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIFloat left, LIFloat right, LIFloat bottom, LIFloat top, LIFloat near, LIFloat far)
 {
-	LIFloat left   = -viewportSize.x * 0.5;
-	LIFloat right  =  viewportSize.x * 0.5;
-	LIFloat bottom = -viewportSize.y * 0.5;
-	LIFloat top    =  viewportSize.y * 0.5;
+	LIFloat ral = right + left;
+	LIFloat rsl = right - left;
+	LIFloat tab = top + bottom;
+	LIFloat tsb = top - bottom;
+	LIFloat fan = far + near;
+	LIFloat fsn = far - near;
 
-	m -> m00 = 2.0 / (right - left);
+	m -> m00 = 2.0 / rsl;
 	m -> m10 = 0.0;
 	m -> m20 = 0.0;
-	m -> m30 = -(right + left) / (right - left);
+	m -> m30 = -ral / rsl;
 
 	m -> m01 = 0.0;
-	m -> m11 = 2.0 / (top - bottom);
+	m -> m11 = 2.0 / tsb;
 	m -> m21 = 0.0;
-	m -> m31 = -(top + bottom) / (top - bottom);
+	m -> m31 = -tab / tsb;
 
 	m -> m02 = 0.0;
 	m -> m12 = 0.0;
-	m -> m22 = -2.0 / (far - near);
-	m -> m32 = -(far + near) / (far - near);
+	m -> m22 = -2.0 / fsn;
+	m -> m32 = -fan / fsn;
 
 	m -> m03 = 0.0;
 	m -> m13 = 0.0;
 	m -> m23 = 0.0;
 	m -> m33 = 1.0;
+}
+
+void LIMakeProjectionOrthogonalMat4Viewport (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far)
+{
+	LIFloat right  =  viewportSize.x * 0.5;
+	LIFloat left   = -right;
+	LIFloat top    =  viewportSize.y * 0.5;
+	LIFloat bottom = -top;
+
+	LIMakeProjectionOrthogonalMat4 (m, left, right, bottom, top, near, far);
 }
 
 void LIMakeProjectionPerspectiveMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far, LIFloat fovy)

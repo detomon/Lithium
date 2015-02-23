@@ -928,7 +928,12 @@ extern void LIMakeModelviewEyeMat4 (LIMat4 * m, LIVec3 eye, LIVec3 lookAt, LIVec
 /**
  * Make orthogonal projection matrix
  */
-extern void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far);
+extern void LIMakeProjectionOrthogonalMat4 (LIMat4 * m, LIFloat left, LIFloat right, LIFloat bottom, LIFloat top, LIFloat near, LIFloat far);
+
+/**
+ * Make orthogonal projection matrix
+ */
+extern void LIMakeProjectionOrthogonalMat4Viewport (LIMat4 * m, LIVec2 viewportSize, LIFloat near, LIFloat far);
 
 /**
  * Make perspective projection matrix
