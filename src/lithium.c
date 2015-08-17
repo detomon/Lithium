@@ -1,5 +1,4 @@
 /**
- * Lithium 0.2
  * Copyright (c) 2015 Simon Schoenenberger
  * https://github.com/detomon/Lithium
  *

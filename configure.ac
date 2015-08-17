@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([Lithium],[0.2],[simon@monoxid.net],[lithium],[])
+AC_INIT([Lithium],[0.3],[simon@monoxid.net],[lithium],[])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 # Checks for programs.
